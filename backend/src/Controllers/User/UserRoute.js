@@ -19,10 +19,14 @@ router.post('/login', async (req, res) => {
 
         const account = await User.findOne( { where: {username} } );
         
-        if(account != null && bcrypt.compareSync(password, account.password)) {
-            res.status(200).json({msg: 'ok'});
+        if(account != null) {
+            if(bcrypt.compareSync(password, account.password)){
+                res.status(200).json({msg: 'ok'});
+            }else {
+                res.status(422).json({msg: 'Senha inválida'});
+            }
         }else {
-            res.status(404).json({msg: 'Usuário não existe!'});
+            res.status(404).json({msg: 'Usuário não encontrado.'});
         }
         
     }else {
