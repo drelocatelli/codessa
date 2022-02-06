@@ -18,9 +18,8 @@ router.post('/login', async (req, res) => {
     if(CheckField(username) && CheckField(password)) {
 
         const account = await User.findOne( { where: {username} } );
-        let checkPassword = bcrypt.compareSync(password, account.password);
         
-        if(account != null || checkPassword) {
+        if(account != null && bcrypt.compareSync(password, account.password)) {
             res.status(200).json({msg: 'ok'});
         }else {
             res.status(404).json({msg: 'Usuário não existe!'});
