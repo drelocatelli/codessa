@@ -10,7 +10,7 @@ export default function(state = INITIAL_STATE, action) {
         case SaveLogin.type:
             return {...state, token: action.payload}
         case DestroyLogin.type: 
-            return INITIAL_STATE;
+            return {...state, token: undefined};
         default:
             return state;
     }
