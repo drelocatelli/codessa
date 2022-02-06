@@ -16,6 +16,16 @@ export function GetAllPosts() {
     }
 }
 
+export function GetAllPostsByUserLoggedIn() {
+    return axios({
+        method: 'GET',
+        url: `${endpoint}/posts/userLogged`,
+        headers: {
+            'Authorization': `Bearer ${parseCookies()['token']}`
+        },
+    });
+}
+
 export function Post(data) {
     
     return axios({

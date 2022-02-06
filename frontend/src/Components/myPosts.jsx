@@ -1,16 +1,23 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { GetAllPosts } from "../Services/Posts/PostService";
+import { useEffect, useState } from "react";
+import { GetAllPostsByUserLoggedIn } from "../Services/Posts/PostService";
 
-export default function Posts() {
+export default function MyPosts() {
 
-    const { posts } = useSelector(state => { return state.PostReducer });
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(GetAllPosts());
-    }, []);
+    const [posts, setPosts] = useState([]);
     
+    useEffect(() => {
+        async function fetchData() {
+            await GetAllPostsByUserLoggedIn()
+                .then(response => {
+                    console.log(response)
+                    setPosts(response.data.posts)
+                }).catch(err => {
+                    console.log(err.response)
+                })
+        }
+        fetchData();
+    }, []);
+
     if (posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>

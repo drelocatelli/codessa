@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -7,6 +8,7 @@ import { Post } from "../../Services/Posts/PostService";
 export default function Page() {
 
     const {handleSubmit, register} = useForm();
+    const route = useRouter();
 
     function onSubmit(data) {
 
@@ -15,9 +17,15 @@ export default function Page() {
         if(!isDataEmpty) {
             Post(data)
                 .then(response => {
-                    console.log(response);
+                    toast.success('Postagem adicionada!');
+                    setTimeout(() => {
+                        route.push('/dashboard');
+                    }, 900)
                 }).catch(err => {
                     console.log(err.response);
+                    if(err.response.status >= 500) {
+                        toast.error('Erro interno do servidor');
+                    }
                 });
         }else {
             toast.error('Campos não podem ser nulos!');

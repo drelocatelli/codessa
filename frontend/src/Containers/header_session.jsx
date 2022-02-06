@@ -9,6 +9,7 @@ export default function HeaderSession() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
+                            <Nav.Link href='/dashboard/meusPosts'>Meu conteúdo</Nav.Link>
                             <Nav.Link href='/dashboard/postar'>Adicionar postagem</Nav.Link>
                         </Nav>
                         <Nav>
