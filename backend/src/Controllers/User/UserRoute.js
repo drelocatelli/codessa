@@ -2,11 +2,12 @@ const bcrypt = require('bcrypt');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv/config');
-
-const router = express.Router();
-
 const User = require('../../Models/User');
 const CheckField = require('../../Utils/Validation');
+
+const router = express.Router();
+const JWTSecret = process.env.JWT_PASS;
+
 
 router.use((req, res, next) => {
     next();
@@ -16,14 +17,19 @@ router.post('/login', async (req, res) => {
     const {username, password} = req.body;
 
     if(CheckField(username) && CheckField(password)) {
-
         const account = await User.findOne( { where: {username} } );
         
         if(account != null) {
             if(bcrypt.compareSync(password, account.password)){
-                res.status(200).json({msg: 'ok'});
+                jwt.sign({id: account.id, username: account.username}, JWTSecret, (err, token) => {
+                    if(err) {
+                        res.status(500).json({msg: 'Erro interno'});
+                    }else {
+                        res.status(200).json({token});
+                    }
+                });
             }else {
-                res.status(422).json({msg: 'Senha inválida'});
+                res.status(401).json({msg: 'Senha inválida'});
             }
         }else {
             res.status(404).json({msg: 'Usuário não encontrado.'});
