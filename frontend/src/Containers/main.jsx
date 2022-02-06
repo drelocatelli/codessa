@@ -1,4 +1,6 @@
+import { parseCookies } from "nookies";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { RevalidateLogin } from "../Services/Authentication/AuthService";
 
 export default function Main(props) {
     return (
@@ -12,6 +14,9 @@ export default function Main(props) {
                             <Nav.Link href="/">Página inicial</Nav.Link>
                             <Nav.Link href="#link">Link</Nav.Link>
 
+                        </Nav>
+                        <Nav>
+                            <Nav.Link href='/admin'>criar conteúdo</Nav.Link>
                         </Nav>
                         {/* <Nav>
                             <NavDropdown title="Login" id="basic-nav-dropdown">
@@ -27,4 +32,29 @@ export default function Main(props) {
             {props.children}
         </>
     );
+}
+
+export const getServerSideProps = async (ctx) => {
+    console.log('Revalidate login...');
+
+    const { token } = parseCookies(ctx);
+
+    if(typeof token != 'undefined') {
+        let revalidateLogin = await RevalidateLogin(token);
+        if (revalidateLogin.status >= 200 && revalidateLogin.status <= 226)
+            return {
+                redirect: {
+                    destination: '/dashboard',
+                    permanent: false
+                }
+            }
+    }
+
+
+    return {
+        props: {
+
+        }
+    }
+
 }

@@ -1,7 +1,8 @@
+import { parseCookies } from 'nookies';
 import {SaveLogin} from './AuthAction';
 
 const INITIAL_STATE = {
-    token: undefined
+    token: parseCookies().token ?? undefined
 }
 
 export default function(state = INITIAL_STATE, action) {

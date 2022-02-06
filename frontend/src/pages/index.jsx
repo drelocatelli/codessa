@@ -1,4 +1,4 @@
-import Main from "../Containers/main";
+import Main, {getServerSideProps} from "../Containers/main";
 
 export default function Page() {
     return(
@@ -7,3 +7,5 @@ export default function Page() {
         </Main>
     );
 }
+
+export {getServerSideProps}

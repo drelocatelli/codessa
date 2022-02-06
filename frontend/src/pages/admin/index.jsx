@@ -1,7 +1,9 @@
 import { Container, Form, Button } from "react-bootstrap";
-import Main from "../../Containers/main";
+import Main, {getServerSideProps} from "../../Containers/main";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { Authenticate } from "../../Services/Authentication/AuthService";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function Page() {
 
@@ -9,14 +11,19 @@ export default function Page() {
     const {authentication} = useSelector(state => {return state});
     const {handleSubmit, register} = useForm();
 
-    console.log(authentication)
-    
     function login(data) {
-        console.log(data)
+        let isDataEmpty = Object.values(data).some(x => x === '' || x === null);
+
+        if(!isDataEmpty) {
+            dispatch(Authenticate(data));
+        }else {
+            toast.error('Campos não podem ser nulos!');
+        }
     }
     
     return (
         <Main>
+            <Toaster />
             <Container>
                 <div className='container'>
                     <h3>Área administrativa</h3> <br />
@@ -49,3 +56,5 @@ export default function Page() {
         </Main>
     );
 }
+
+export {getServerSideProps}
