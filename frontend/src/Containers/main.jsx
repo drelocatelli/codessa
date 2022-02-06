@@ -16,7 +16,7 @@ export default function Main(props) {
 
                         </Nav>
                         <Nav>
-                            <Nav.Link href='/admin'>criar conteúdo</Nav.Link>
+                            <Nav.Link href='/admin'>Nova postagem</Nav.Link>
                         </Nav>
                         {/* <Nav>
                             <NavDropdown title="Login" id="basic-nav-dropdown">
