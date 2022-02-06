@@ -26,4 +26,5 @@ conn.sync()
     app.listen(process.env.PORT);
 })
     .catch(error => {console.log(error)});
+    
 // app.listen(process.env.port);
