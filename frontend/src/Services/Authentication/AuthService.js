@@ -4,6 +4,7 @@ import { SaveLogin } from "../../Store/Authentication/AuthAction";
 import { endpoint } from "../Service"
 import { setCookie } from 'nookies';
 import {dayTime} from '../../Utils/CookieTime';
+import Router, { useRouter } from "next/router";
 
 export function Authenticate(data) {
     return (dispatch) => {
@@ -17,6 +18,7 @@ export function Authenticate(data) {
                 secure: true
             });
             dispatch(SaveLogin(response.data.token));
+            Router.push('/dashboard');
         }).catch((err) => {
             console.log(err.response);
             toast.error(err.response.data.msg)
