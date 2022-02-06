@@ -1,11 +1,9 @@
-import Link from "next/link";
+import MainSession from "../../Containers/main_session";
 
 export default function Page() {
     return(
-        <>
+        <MainSession>
             Bem vindo!
-            <br />
-            <Link href='/dashboard/logout'>Logout</Link>
-        </>
+        </MainSession>
     );
 }

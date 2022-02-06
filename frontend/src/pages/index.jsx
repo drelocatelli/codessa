@@ -57,4 +57,4 @@ export default function Page() {
     );
 }
 
-export { getServerSideProps }
+// export { getServerSideProps }
