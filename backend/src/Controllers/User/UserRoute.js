@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 require('dotenv/config');
 const User = require('../../Models/User');
 const CheckField = require('../../Utils/Validation');
+const ProtectedRoute = require('../../Middlewares/AuthMiddleware');
 
 const router = express.Router();
 const JWTSecret = process.env.JWT_PASS;
-
 
 router.use((req, res, next) => {
     next();
@@ -56,6 +56,10 @@ router.post('/register', async (req, res) => {
         res.status(422).json({msg: 'Não foi possível criar usuário.', err});
     });
     
+});
+
+router.get('/all', ProtectedRoute, (req, res) => {
+    res.json({msg: 'Ola!'});
 });
 
 module.exports = router;
