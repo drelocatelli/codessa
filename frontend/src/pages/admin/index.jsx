@@ -1,12 +1,40 @@
-import { Container } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 import Main from "../../Containers/main";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Page() {
-    return(
+
+    const dispatch = useDispatch();
+    const {authentication} = useSelector(state => {return state});
+    const {handleSubmit, register} = useForm();
+
+    console.log(authentication)
+    
+    function login(data) {
+        console.log(data)
+    }
+    
+    return (
         <Main>
             <Container>
                 <div className='container'>
-                    Aqui o formulario de login
+                    <h3>Área administrativa</h3> <br />
+                    <form onSubmit={handleSubmit(login)}>
+                        <Form.Group>
+                            <Form.Control {...register('username')} type="text" placeholder="Usuário" />
+                        </Form.Group>
+                        <br />
+                        <Form.Group>
+                            <Form.Control {...register('password')} type="password" placeholder="****" />
+                        </Form.Group>
+                        <br />
+                        <div style={{textAlign: 'center'}}>
+                            <Form.Group>
+                                <Button variant="primary" type="submit">Fazer login</Button>
+                            </Form.Group>
+                        </div>
+                    </form>
                 </div>
             </Container>
             <style jsx>{`
