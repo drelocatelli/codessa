@@ -1,15 +1,7 @@
-import { parseCookies } from "nookies";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import {useSelector} from 'react-redux';
-import HeaderSession from "./header_session";
 
 export default function Header() {
 
-    const {token} = parseCookies();
-
-    if(typeof token != 'undefined')
-        return(<HeaderSession />);
-    
     return (
         <Navbar bg="light" expand="lg">
             <Container>

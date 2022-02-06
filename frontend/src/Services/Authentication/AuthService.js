@@ -15,7 +15,8 @@ export function Authenticate(data) {
         }).then((response) => {
             setCookie(null, 'token', response.data.token, {
                 maxAge: dayTime(30),
-                secure: true
+                secure: true,
+                path: '/'
             });
             dispatch(SaveLogin(response.data.token));
             Router.push('/dashboard');

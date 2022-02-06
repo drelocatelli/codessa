@@ -10,7 +10,9 @@ export default function Page() {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        destroyCookie({}, 'token');
+        destroyCookie(null, 'token', {
+            path: '/'
+        });
         dispatch(DestroyLogin());
     }, []);
     

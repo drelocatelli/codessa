@@ -3,13 +3,15 @@ import { RevalidateLogin } from "../Services/Authentication/AuthService";
 import Header from "./header";
 
 export default function Main(props) {
+
     return (
         <>
-            <Header />
+            <Header/>
 
             {props.children}
         </>
     );
+
 }
 
 export const getServerSideProps = async (ctx) => {
