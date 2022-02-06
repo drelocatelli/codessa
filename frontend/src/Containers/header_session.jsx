@@ -10,6 +10,7 @@ export default function HeaderSession() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                            <Nav.Link href='/dashboard/postar'>Adicionar postagem</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link href='/dashboard/logout'>Logout</Nav.Link>

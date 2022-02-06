@@ -21,6 +21,7 @@ export const getServerSideProps = async (ctx) => {
 
     const { token } = parseCookies(ctx);
 
+    // verifica se há token e revalida
     if(typeof token != 'undefined') {
         let revalidateLogin = await RevalidateLogin(token);
         if (revalidateLogin.status >= 400)
@@ -32,6 +33,16 @@ export const getServerSideProps = async (ctx) => {
             }
     }
 
+
+    // se nao houver token
+    if(typeof token == 'undefined') {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
 
     return {
         props: {
