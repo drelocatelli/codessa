@@ -17,28 +17,19 @@ export default function MainSession(props) {
 }
 
 export const getServerSideProps = async (ctx) => {
-    console.log('Revalidate login...');
+    console.log('Check login permission...');
 
     const { token } = parseCookies(ctx);
 
     // verifica se há token e revalida
     if (typeof token != 'undefined') {
-        RevalidateLogin(token)
-            .then(response => {
-                return {
-                    props: {}
-                }
-            }).catch(err => {
-                console.log('Não foi possivel autenticar com o token informado');
-            });
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
+        let revalidate = await RevalidateLogin(token);
+        if(revalidate.status == 200) {
+            return {
+                props: {}
             }
         }
     }
-
 
     return {
         redirect: {
