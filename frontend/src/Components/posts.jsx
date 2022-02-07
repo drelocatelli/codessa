@@ -40,6 +40,9 @@ export default function Posts() {
             )}
 
             <style jsx>{`
+                    .post h5 a{
+                        color: #0d6efd;
+                    }
                     .post {
                         margin-bottom: 30px;
                         background: #fcfcfc;
