@@ -20,21 +20,21 @@ export const getServerSideProps = async (ctx) => {
     const { token } = parseCookies(ctx);
 
     if(typeof token != 'undefined') {
-        let revalidateLogin = await RevalidateLogin(token);
-        if (revalidateLogin.status >= 200 && revalidateLogin.status <= 226)
-            return {
-                redirect: {
-                    destination: '/dashboard',
-                    permanent: false
+        RevalidateLogin(token)
+            .then(response => {
+                return {
+                    redirect: {
+                        destination: '/dashboard',
+                        permanent: false
+                    }
                 }
-            }
+            }).catch(err => {
+                console.log('Não foi possivel autenticar com o token informado')
+            });
     }
 
-
     return {
-        props: {
-
-        }
+        props: { }
     }
 
 }

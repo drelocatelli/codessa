@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const conn = require('./db/conn');
 const UserRoute = require('./Controllers/User/UserRoute');
+const PostRoute = require('./Controllers/User/PostRoute');
 const cors = require('cors');
 
 const app = express();
@@ -17,6 +18,7 @@ app.get('/', function (req, res, next) {
 });
 
 app.use('/api/users', UserRoute);
+app.use('/api/posts', PostRoute);
 
 
 //------------------------------------------------------

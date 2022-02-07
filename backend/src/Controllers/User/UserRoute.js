@@ -14,36 +14,40 @@ router.use((req, res, next) => {
 });
 
 router.post('/login', async (req, res) => {
-    const {username, password} = req.body;
+    const { username, password } = req.body;
 
-    if(CheckField(username) && CheckField(password)) {
-        const account = await User.findOne( { where: {username} } );
-        
-        if(account != null) {
-            if(bcrypt.compareSync(password, account.password)){
-                jwt.sign({id: account.id, username: account.username}, JWTSecret, (err, token) => {
-                    if(err) {
-                        res.status(500).json({msg: 'Erro interno'});
-                    }else {
-                        res.status(200).json({token});
-                    }
-                });
-            }else {
-                res.status(401).json({msg: 'Senha inválida'});
+    if (CheckField(username) && CheckField(password)) {
+        const account = await User.findOne({ where: { username } });
+
+        if (account != null) {
+            if (bcrypt.compareSync(password, account.password)) {
+                if (account.permissions == 'ADMIN') {
+                    jwt.sign({ id: account.id, username: account.username, name: account.name }, JWTSecret, (err, token) => {
+                        if (err) {
+                            res.status(500).json({ msg: 'Erro interno' });
+                        } else {
+                            res.status(200).json({ token });
+                        }
+                    });
+                } else {
+                    res.status(406).json({msg: 'Você não possui permissão'})
+                }
+            } else {
+                res.status(401).json({ msg: 'Senha inválida' });
             }
-        }else {
-            res.status(404).json({msg: 'Usuário não encontrado.'});
+        } else {
+            res.status(404).json({ msg: 'Usuário não encontrado' });
         }
-        
-    }else {
-        res.status(400).json({msg: 'Campos não podem ser nulos!'});
+
+    } else {
+        res.status(400).json({ msg: 'Campos não podem ser nulos!' });
     }
 
 });
 
 router.post('/register', async (req, res) => {
 
-    const {name, username, password} = req.body;
+    const { name, username, password } = req.body;
 
     await User.create({
         name,
@@ -51,15 +55,15 @@ router.post('/register', async (req, res) => {
         password: bcrypt.hashSync(password, 10),
         permission: 'USER'
     }).then((response) => {
-        res.status(201).json({msg: 'O usuário foi criado com sucesso!'});
+        res.status(201).json({ msg: 'O usuário foi criado com sucesso!' });
     }).catch(err => {
-        res.status(422).json({msg: 'Não foi possível criar usuário.', err});
+        res.status(422).json({ msg: 'Não foi possível criar usuário.', err });
     });
-    
+
 });
 
-router.get('/all', ProtectedRoute, (req, res) => {
-    res.json({msg: 'Ola!'});
+router.get('/revalidate', ProtectedRoute, (req, res) => {
+    res.json({ userLoggedIn: {id: req.userLoggedIn.id, username: req.userLoggedIn.username, name: req.userLoggedIn.name} });
 });
 
 module.exports = router;

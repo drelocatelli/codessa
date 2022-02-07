@@ -8,7 +8,7 @@ export default function MainSession(props) {
         <>
             <HeaderSession />
             <Container>
-                <div style={{marginTop: '50px'}}>
+                <div style={{ marginTop: '50px' }}>
                     {props.children}
                 </div>
             </Container>
@@ -22,20 +22,15 @@ export const getServerSideProps = async (ctx) => {
     const { token } = parseCookies(ctx);
 
     // verifica se há token e revalida
-    if(typeof token != 'undefined') {
-        let revalidateLogin = await RevalidateLogin(token);
-        if (revalidateLogin.status >= 400)
-            return {
-                redirect: {
-                    destination: '/',
-                    permanent: false
+    if (typeof token != 'undefined') {
+        RevalidateLogin(token)
+            .then(response => {
+                return {
+                    props: {}
                 }
-            }
-    }
-
-
-    // se nao houver token
-    if(typeof token == 'undefined') {
+            }).catch(err => {
+                console.log('Não foi possivel autenticar com o token informado');
+            });
         return {
             redirect: {
                 destination: '/',
@@ -44,10 +39,13 @@ export const getServerSideProps = async (ctx) => {
         }
     }
 
-    return {
-        props: {
 
+    return {
+        redirect: {
+            destination: '/',
+            permanent: false
         }
     }
+
 
 }
