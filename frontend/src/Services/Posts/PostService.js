@@ -16,6 +16,13 @@ export function GetAllPosts() {
     }
 }
 
+export function GetPostById(id) {
+    return axios({
+        method: 'GET',
+        url: `${endpoint}/posts/${id}`
+    });
+}
+
 export function GetAllPostsByUserLoggedIn() {
     return axios({
         method: 'GET',

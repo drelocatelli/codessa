@@ -20,6 +20,17 @@ router.get('/all', async (req, res) => {
     
 });
 
+
+// posts por id
+router.get('/:id', async (req, res) => {
+    await Post.findOne({where: {id: req.params.id} })
+        .then(response => {
+            res.status(200).json({post: response});
+        }).catch(err => {
+            res.status(500).json({msg: 'Não foi possível obter postagens', err});
+        })
+});
+
 // todos os posts do usuario logado
 router.get('/userLogged', ProtectedRoute, async (req, res) => {
     await Post.findAll({where: {username: req.userLoggedIn.username}, order: [['id', 'DESC']] })

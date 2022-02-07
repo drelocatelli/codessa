@@ -1,17 +1,24 @@
-import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { GetAllPosts } from "../Services/Posts/PostService";
+import { useEffect, useState } from "react";
+import { GetPostById } from "../Services/Posts/PostService";
 
-export default function Posts() {
+export default function PostPage(props) {
 
-    const { posts } = useSelector(state => { return state.PostReducer });
-    const dispatch = useDispatch();
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        dispatch(GetAllPosts());
+        fetchData();
     }, []);
-    
+
+    async function fetchData() {
+        let posts = GetPostById(props.id);
+        posts
+            .then(response => {
+                setPosts([response.data.post]);
+            }).catch(err => {
+                console.log(err.response);
+            });
+    }
+
     if (posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
@@ -25,7 +32,7 @@ export default function Posts() {
             (
                 <div className="post" key={post.id}>
                     <h5>
-                        <Link href={`/post/${post.id}`}>{post.title}</Link>
+                        {post.title}
                     </h5>
                     <div className='post-details'>
                         <li><b>Autor:</b> {post.author}</li>
