@@ -20,7 +20,7 @@ export const getServerSideProps = async (ctx) => {
     const { token } = parseCookies(ctx);
 
     if(typeof token != 'undefined') {
-        let revalidate = await RevalidateLogin(token);
+        let revalidate = RevalidateLogin(token);
         if(revalidate.status == 200) {
             return {
                 redirect: {

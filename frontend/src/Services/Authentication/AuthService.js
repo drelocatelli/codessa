@@ -1,10 +1,11 @@
 import axios from "axios"
 import toast from "react-hot-toast";
 import { SaveLogin } from "../../Store/Authentication/AuthAction";
-import { endpoint } from "../Service"
 import { setCookie } from 'nookies';
 import {dayTime} from '../../Utils/CookieTime';
 import Router, { useRouter } from "next/router";
+
+const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
 
 export function Authenticate(data) {
     return (dispatch) => {
@@ -27,12 +28,10 @@ export function Authenticate(data) {
     }
 }
 
-export function RevalidateLogin(token) {
-    return axios({
-        method: 'GET',
-        url: `${endpoint}/users/revalidate`,
+export async function RevalidateLogin(token) {
+    return await axios.get(`${endpoint}/users/revalidate`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
-    });
+    })
 }

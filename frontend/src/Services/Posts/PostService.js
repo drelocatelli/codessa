@@ -1,7 +1,8 @@
 import axios from "axios";
 import { parseCookies } from "nookies";
 import { setPosts } from "../../Store/Posts/PostAction";
-import { endpoint } from "../Service";
+
+const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
 
 export function GetAllPosts() {
     return (dispatch) => {
