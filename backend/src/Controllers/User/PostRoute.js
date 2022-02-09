@@ -5,6 +5,7 @@ const ProtectedRoute = require('../../Middlewares/AuthMiddleware');
 const router = express.Router();
 
 router.use((req, res, next) => {
+    console.log('Time: ', Date.now());
     next();
 });
 
@@ -22,7 +23,7 @@ router.get('/all', async (req, res) => {
 
 
 // posts por id
-router.get('/:id', async (req, res) => {
+router.get('/id/:id', async (req, res) => {
     await Post.findOne({where: {id: req.params.id} })
         .then(response => {
             res.status(200).json({post: response});

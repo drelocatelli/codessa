@@ -5,19 +5,16 @@ export default function MyPosts() {
 
     const [posts, setPosts] = useState([]);
     
-    useEffect(() => {
-        async function fetchData() {
-            await GetAllPostsByUserLoggedIn()
-                .then(response => {
-                    console.log(response)
-                    setPosts(response.data.posts)
-                }).catch(err => {
-                    console.log(err.response)
-                })
-        }
+    useEffect(() => {   
         fetchData();
     }, []);
 
+    async function fetchData() {
+        let getAllPostsByUserLoggedIn = await GetAllPostsByUserLoggedIn();
+        setPosts(getAllPostsByUserLoggedIn.data.posts);
+    }
+
+    
     if (posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>

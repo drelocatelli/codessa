@@ -1,17 +1,20 @@
 import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { GetAllPosts } from "../Services/Posts/PostService";
 
 export default function Posts() {
 
-    const { posts } = useSelector(state => { return state.PostReducer });
-    const dispatch = useDispatch();
-
+    const [posts, setPosts] = useState([]);
+    
     useEffect(() => {
-        dispatch(GetAllPosts());
+        fetchData();
     }, []);
     
+    const fetchData = async () => {
+        let getAllPosts = await GetAllPosts();
+        setPosts(getAllPosts.data.posts)
+    }
+
     if (posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
