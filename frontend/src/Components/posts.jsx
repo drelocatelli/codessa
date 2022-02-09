@@ -28,7 +28,7 @@ export default function Posts() {
             (
                 <div className="post" key={post.id}>
                     <h5>
-                        <Link href={`/post/${post.id}`}>{post.title}</Link>
+                        <Link href={`/dashboard/post/${post.id}`}>{post.title}</Link>
                     </h5>
                     <div className='post-details'>
                         <li><b>Autor:</b> {post.author}</li>
