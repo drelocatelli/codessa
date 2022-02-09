@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Container } from "react-bootstrap";
 import PostPage from "../../../Components/postPage";
-import MainSession, {getServerSideProps} from "../../../Containers/main_session";
+import MainSession from "../../../Containers/main_session";
 
 export default function Page(props) {
 
@@ -15,5 +15,3 @@ export default function Page(props) {
         </MainSession>
     );
 }
-
-export {getServerSideProps}

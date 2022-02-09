@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import MainSession, {getServerSideProps} from "../../Containers/main_session";
+import MainSession from "../../Containers/main_session";
 import { Post } from "../../Services/Posts/PostService";
 
 export default function Page() {
@@ -57,5 +57,3 @@ export default function Page() {
         </MainSession>
     );
 }
-
-export {getServerSideProps}

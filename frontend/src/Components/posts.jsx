@@ -7,13 +7,12 @@ export default function Posts() {
     const [posts, setPosts] = useState([]);
     
     useEffect(() => {
-        fetchData();
+        // obtem todos os posts
+        GetAllPosts()
+            .then(response => {
+                setPosts(response.data.posts);
+            })
     }, []);
-    
-    const fetchData = async () => {
-        let getAllPosts = await GetAllPosts();
-        setPosts(getAllPosts.data.posts)
-    }
 
     if (posts.length == 0)
         return (
@@ -28,7 +27,7 @@ export default function Posts() {
             (
                 <div className="post" key={post.id}>
                     <h5>
-                        <Link href={`/dashboard/post/${post.id}`}>{post.title}</Link>
+                        <Link href={`/post/${post.id}`}>{post.title}</Link>
                     </h5>
                     <div className='post-details'>
                         <li><b>Autor:</b> {post.author}</li>

@@ -1,5 +1,5 @@
 import { Container } from 'react-bootstrap';
-import MainSession, {getServerSideProps} from '../../Containers/main_session';
+import MainSession from '../../Containers/main_session';
 import MyPosts from '../../Components/myPosts';
 
 export default function Page() {
@@ -12,5 +12,3 @@ export default function Page() {
         </MainSession>
     );
 }
-
-export {getServerSideProps}
