@@ -3,14 +3,14 @@ import { Container, Nav, Navbar, NavDropdown, TabContent } from "react-bootstrap
 
 export default function HeaderSession() {
     return(
-        <Navbar bg="dark" variant='dark' expand="lg">
+        <Navbar bg="dark" variant='dark' expand="lg" fixed='top'>
                 <Container>
                     <Navbar.Brand href='/dashboard'>Codessa</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href='/dashboard/meusPosts'>Meu conteúdo</Nav.Link>
-                            <Nav.Link href='/dashboard/postar'>Adicionar postagem</Nav.Link>
+                            <Nav.Link href='/dashboard/postar'>Criar artigo</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link href='/dashboard/logout'>Logout</Nav.Link>

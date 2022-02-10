@@ -1,0 +1,30 @@
+.post h5 a{
+    color: #0d6efd;
+}
+
+.post h5 a:hover {
+    opacity: 0.6;
+}
+
+.post {
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    text-align: left;
+    padding: 15px;
+    border: 1px solid transparent;
+}
+.post_body {
+    word-wrap: break-word;
+}
+.post_details {
+    font-size: 12px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    color: #949494;
+    margin-bottom: 25px;
+}
+.post_details li {
+    list-style:none;
+    display: inline;
+    margin-right: 10px;
+}

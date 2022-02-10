@@ -10,19 +10,19 @@ export async function GetAllPosts() {
         });
 }
 
-export function GetPostById(id) {
+export async function GetPostById(id) {
     return axios({
         method: 'GET',
         url: `${endpoint}/posts/id/${id}`
     });
 }
 
-export function GetAllPostsByUserLoggedIn() {
+export async function GetAllPostsByUserLoggedIn(ctx) {
     return axios({
         method: 'GET',
         url: `${endpoint}/posts/userLogged`,
         headers: {
-            'Authorization': `Bearer ${parseCookies()['token']}`
+            'Authorization': `Bearer ${parseCookies(ctx)['token']}`
         },
     });
 }

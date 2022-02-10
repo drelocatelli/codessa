@@ -1,0 +1,28 @@
+.profile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin:5em 0;
+    margin-top: 10em;
+    align-items: center;
+}
+
+@media screen and (min-height: 900px) {
+    .profile {
+        margin-left: 8em;
+    }
+}
+
+.profile .body {
+    width: 50%;
+}
+
+.profile img {
+    width: 70%;
+    /* width: 376px; */
+    /* height: 337px; */
+    border-radius: 108%;
+    moz-object-fit: none;
+    object-fit: none;
+}

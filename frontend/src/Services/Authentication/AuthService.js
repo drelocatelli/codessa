@@ -23,7 +23,7 @@ export function Authenticate(data) {
             Router.push('/dashboard');
         }).catch((err) => {
             console.log(err.response);
-            toast.error(err.response.data.msg)
+            toast.error(err.response.data.msg, {id: 'login_error'})
         });
     }
 }

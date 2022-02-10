@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Authenticate } from "../../Services/Authentication/AuthService";
 import { Toaster, toast } from "react-hot-toast";
-import { RedirectUserLoggedIn } from "../../Containers/SessionManagement";
+import { LoadSession } from "../../Containers/SessionManagement";
 
 export default function Page() {
 
@@ -18,12 +18,12 @@ export default function Page() {
         if (!isDataEmpty) {
             dispatch(Authenticate(data));
         } else {
-            toast.error('Campos não podem ser nulos!');
+            toast.error('Campos não podem ser nulos!', {id: 'null_fields'});
         }
     }
 
     return (
-        <RedirectUserLoggedIn>
+        <>
             <Main>
                 <Toaster />
                 <Container>
@@ -56,6 +56,15 @@ export default function Page() {
                 }
             `}</style>
             </Main>
-        </RedirectUserLoggedIn>
+        </>
     );
+}
+
+export async function getServerSideProps(ctx) {
+
+    return{
+        ...await LoadSession(ctx),
+        props: {}
+    }
+    
 }

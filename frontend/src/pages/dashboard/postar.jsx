@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import MainSession from "../../Containers/main_session";
+import { PrivateRoute } from "../../Containers/SessionManagement";
 import { Post } from "../../Services/Posts/PostService";
 
 export default function Page() {
@@ -56,4 +57,10 @@ export default function Page() {
             `}</style>
         </MainSession>
     );
+}
+
+export async function getServerSideProps(ctx) {
+
+    return await PrivateRoute(ctx);
+    
 }
