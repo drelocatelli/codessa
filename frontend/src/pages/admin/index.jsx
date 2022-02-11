@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Authenticate } from "../../Services/Authentication/AuthService";
 import { Toaster, toast } from "react-hot-toast";
 import { LoadSession } from "../../Containers/SessionManagement";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Page() {
 
+    const route = useRouter();
+    
     const dispatch = useDispatch();
-    const { authentication } = useSelector(state => { return state });
     const { handleSubmit, register } = useForm();
 
     function login(data) {
@@ -37,6 +40,10 @@ export default function Page() {
                             <Form.Group>
                                 <Form.Control {...register('password')} type="password" placeholder="****" />
                             </Form.Group>
+                            <br />
+                            <div style={{textAlign: 'center'}}>
+                                <Link href={`${route.asPath}/register`}>Solicitar acesso</Link>
+                            </div>
                             <br />
                             <div style={{ textAlign: 'center' }}>
                                 <Form.Group>

@@ -3,7 +3,7 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 export default function Header() {
 
     return (
-        <Navbar bg="light" expand="lg" fixed='top'>
+        <Navbar bg="light" expand="lg">
             <Container>
                 {/* <Navbar.Brand href='/'>Codessa</Navbar.Brand> */}
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

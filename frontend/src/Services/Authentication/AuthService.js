@@ -35,3 +35,7 @@ export async function RevalidateLogin(token) {
         }
     })
 }
+
+export async function Register(data) {
+    return await axios.post(`${endpoint}/users/register`, data);
+}
