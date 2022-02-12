@@ -12,9 +12,7 @@ export default function Page(props) {
         return (
             <MainSession>
                 <Container>
-                    <div style={{ marginTop: '7em' }}>
-                        Nenhuma postagem foi encontrada.
-                    </div>
+                    Nenhuma postagem foi encontrada.
                 </Container>
             </MainSession>
         );
@@ -22,18 +20,16 @@ export default function Page(props) {
     return (
         <MainSession>
             <Container>
-                <div style={{ marginTop: '7em' }}>
-                    <div className="post" key={post.id}>
-                        <h5>
-                            {post.title}
-                        </h5>
-                        <div className='post-details'>
-                            <li><b>Autor:</b> {post.author}</li>
-                            <li><b>Data:</b> {post.createdAt}</li>
-                        </div>
-                        <div className="post-body">
-                            {post.content}
-                        </div>
+                <div className="post" key={post.id}>
+                    <h5>
+                        {post.title}
+                    </h5>
+                    <div className='post-details'>
+                        <li><b>Autor:</b> {post.author}</li>
+                        <li><b>Data:</b> {post.createdAt}</li>
+                    </div>
+                    <div className="post-body">
+                        {post.content}
                     </div>
 
                     <style jsx>{`

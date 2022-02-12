@@ -14,10 +14,8 @@ export default function Page(props) {
         <MainSession>
             <Toaster />
             <Container>
-                <div style={{marginTop: '7em'}}>
-                    <h3>Artigos publicados</h3>
-                    <Posts posts={posts} />
-                </div>
+                <h5>Artigos publicados</h5>
+                <Posts posts={posts} />
             </Container>
         </MainSession>
     );

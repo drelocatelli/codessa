@@ -7,15 +7,13 @@ import stylesPosts from '../../../styles/posts.module.css';
 
 export default function Page(props) {
 
-    const {posts} = props;
-    
-    return(
+    const { posts } = props;
+
+    return (
         <MainSession>
             <Container>
-                <div style={{marginTop: '8em'}}>
-                    <h5>Meu conteúdo</h5>
-                    <Posts posts={posts} />
-                </div>
+                <h5>Meu conteúdo</h5>
+                <Posts posts={posts} />
             </Container>
         </MainSession>
     );
@@ -55,12 +53,12 @@ export function Posts({ posts }) {
 export async function getServerSideProps(ctx) {
 
     let posts = await GetAllPostsByUserLoggedIn(ctx);
-    
+
     return {
         ...await PrivateRoute(ctx),
         props: {
-            posts: posts.data.posts    
+            posts: posts.data.posts
         }
     };
-    
+
 }
