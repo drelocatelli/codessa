@@ -5,7 +5,6 @@ const ProtectedRoute = require('../../Middlewares/AuthMiddleware');
 const router = express.Router();
 
 router.use((req, res, next) => {
-    console.log('Time: ', Date.now());
     next();
 });
 

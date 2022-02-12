@@ -9,18 +9,7 @@ import { LoadSession } from "../Containers/SessionManagement";
 export default function Page(props) {
 
     const { posts } = props;
-
-    console.log(props)    
-
-    if(posts.lenght == 0 )
-    return(
-        <Main>
-            <Container>
-                Nenhuma postagem foi adicionada.
-            </Container>
-        </Main>
-    );
-    
+   
     return (
         <Main>
             <Container>
@@ -48,7 +37,7 @@ export default function Page(props) {
 }
 
 export function Posts({ posts }) {
-    if (posts.length == 0)
+    if (posts == null)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
                 Nenhuma postagem foi encontrada.

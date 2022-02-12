@@ -13,8 +13,13 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get('/test', (req, res) => {
-    res.send('ok');
+router.get('/get', ProtectedRoute, async (req, res) => {
+    await User.findAll()
+        .then((response) => {
+            res.status(200).json({response});
+        }).catch(err => {
+            res.status(404).json({msg: 'Não foi possível retornar usuários'});
+        });    
 });
 
 router.post('/login', async (req, res) => {

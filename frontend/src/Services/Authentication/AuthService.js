@@ -4,14 +4,13 @@ import { SaveLogin } from "../../Store/Authentication/AuthAction";
 import { setCookie } from 'nookies';
 import {dayTime} from '../../Utils/CookieTime';
 import Router, { useRouter } from "next/router";
-
-const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
+import { ENDPOINT } from "../Service";
 
 export function Authenticate(data) {
     return (dispatch) => {
         axios({
             method: 'POST',
-            url: `${endpoint}/users/login`,
+            url: `${ENDPOINT}/users/login`,
             data
         }).then((response) => {
             setCookie(null, 'TOKEN_CODESSA', response.data.token, {
@@ -29,7 +28,7 @@ export function Authenticate(data) {
 }
 
 export async function RevalidateLogin(token) {
-    return await axios.get(`${endpoint}/users/revalidate`, {
+    return await axios.get(`${ENDPOINT}/users/revalidate`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -37,5 +36,5 @@ export async function RevalidateLogin(token) {
 }
 
 export async function Register(data) {
-    return await axios.post(`${endpoint}/users/register`, data);
+    return await axios.post(`${ENDPOINT}/users/register`, data);
 }
