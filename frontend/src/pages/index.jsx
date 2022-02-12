@@ -10,6 +10,17 @@ export default function Page(props) {
 
     const { posts } = props;
 
+    console.log(props)    
+
+    if(posts.lenght == 0 )
+    return(
+        <Main>
+            <Container>
+                Nenhuma postagem foi adicionada.
+            </Container>
+        </Main>
+    );
+    
     return (
         <Main>
             <Container>
@@ -70,7 +81,7 @@ export function Posts({ posts }) {
 export async function getServerSideProps(ctx) {
 
     let posts = await GetAllPosts();
-
+    
     return {
         ...await LoadSession(ctx),
         props: { posts: posts.data.posts }

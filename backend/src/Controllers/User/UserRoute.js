@@ -13,6 +13,10 @@ router.use((req, res, next) => {
     next();
 });
 
+router.get('/test', (req, res) => {
+    res.send('ok');
+});
+
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 

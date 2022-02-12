@@ -18,18 +18,16 @@ export default function Page() {
         if(!isDataEmpty) {
             Post(data)
                 .then(response => {
-                    toast.success('Postagem adicionada!');
-                    setTimeout(() => {
-                        route.push('/dashboard');
-                    }, 900)
+                    toast.success('Postagem adicionada!', {id: 'post_added'});
+                    route.push('/dashboard');
                 }).catch(err => {
                     console.log(err.response);
                     if(err.response.status >= 500) {
-                        toast.error('Erro interno do servidor');
+                        toast.error('Erro interno do servidor', {id: 'server_error'});
                     }
                 });
         }else {
-            toast.error('Campos não podem ser nulos!');
+            toast.error('Campos não podem ser nulos!', {id: 'null_fields'});
         }
     }
     

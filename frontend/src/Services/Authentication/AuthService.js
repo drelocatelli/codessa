@@ -14,7 +14,7 @@ export function Authenticate(data) {
             url: `${endpoint}/users/login`,
             data
         }).then((response) => {
-            setCookie(null, 'token', response.data.token, {
+            setCookie(null, 'TOKEN_CODESSA', response.data.token, {
                 maxAge: dayTime(30),
                 secure: true,
                 path: '/'

@@ -4,6 +4,7 @@ import { PrivateRoute } from "../../Containers/SessionManagement";
 import stylesPosts from '../../../styles/posts.module.css';
 import { GetAllPosts } from "../../Services/Posts/PostService";
 import Link from "next/link";
+import { Toaster } from "react-hot-toast";
 
 export default function Page(props) {
 
@@ -11,6 +12,7 @@ export default function Page(props) {
 
     return (
         <MainSession>
+            <Toaster />
             <Container>
                 <div style={{marginTop: '7em'}}>
                     <h3>Artigos publicados</h3>

@@ -9,17 +9,18 @@ export async function LoadSession(ctx) {
 
     console.log('Check whether user already logged');
 
-    const {token} = parseCookies(ctx);
+    const {TOKEN_CODESSA} = parseCookies(ctx);
 
-    if(typeof token != 'undefined') {
-        let revalidate = await RevalidateLogin(token);
-        if(revalidate.status == 200) {
-            return {
-                redirect: {
-                    destination: '/dashboard',
-                    permanent: false,
-                },
-            };
+    if(typeof TOKEN_CODESSA != 'undefined') {
+        let revalidate = await RevalidateLogin(TOKEN_CODESSA);
+        switch(revalidate.status) {
+            case 200:
+                return {
+                    redirect: {
+                        destination: '/dashboard',
+                        permanent: false,
+                    },
+                };
         }
     }
 
@@ -35,10 +36,10 @@ export async function PrivateRoute(ctx) {
 
     console.log('Check user in private route');
 
-    const {token} = parseCookies(ctx);
+    const {TOKEN_CODESSA} = parseCookies(ctx);
 
-    if(typeof token != 'undefined') {
-        let revalidate = await RevalidateLogin(token);
+    if(typeof TOKEN_CODESSA != 'undefined') {
+        let revalidate = await RevalidateLogin(TOKEN_CODESSA);
         if(revalidate.status == 200) {
             return {
                props: {}

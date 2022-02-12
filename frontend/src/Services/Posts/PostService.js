@@ -22,7 +22,7 @@ export async function GetAllPostsByUserLoggedIn(ctx) {
         method: 'GET',
         url: `${endpoint}/posts/userLogged`,
         headers: {
-            'Authorization': `Bearer ${parseCookies(ctx)['token']}`
+            'Authorization': `Bearer ${parseCookies(ctx)['TOKEN_CODESSA']}`
         },
     });
 }
@@ -33,7 +33,7 @@ export function Post(data) {
         method: 'POST',
         url: `${endpoint}/posts/new`,
         headers: {
-            'Authorization': `Bearer ${parseCookies()['token']}`
+            'Authorization': `Bearer ${parseCookies()['TOKEN_CODESSA']}`
         },
         data
     });
