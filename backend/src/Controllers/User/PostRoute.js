@@ -1,6 +1,7 @@
 const express = require('express');
 const Post = require('../../Models/Post');
 const ProtectedRoute = require('../../Middlewares/AuthMiddleware');
+const User = require('../../Models/User');
 
 const router = express.Router();
 
@@ -11,7 +12,16 @@ router.use((req, res, next) => {
 // obtem todos os posts
 router.get('/all', async (req, res) => {
 
-    await Post.findAll({order: [['id', 'DESC']]})
+    User.hasMany(Post, {foreignKey: 'user_id'});
+    Post.belongsTo(User, {foreignKey: 'user_id'});
+    
+    await Post.findAll({
+            order: [['id', 'DESC']],
+            include: [{
+                model: User,
+                attributes: ['name']
+            }]
+        })
         .then((response) => {
             res.status(200).json({posts: response});
         }).catch(err => {
@@ -23,7 +33,17 @@ router.get('/all', async (req, res) => {
 
 // posts por id
 router.get('/id/:id', async (req, res) => {
-    await Post.findOne({where: {id: req.params.id} })
+
+    User.hasMany(Post, {foreignKey: 'user_id'});
+    Post.belongsTo(User, {foreignKey: 'user_id'});
+    
+    await Post.findOne({
+            where: {id: req.params.id},
+            include: [{
+                model: User,
+                attributes: ['name']
+            }]
+        })
         .then(response => {
             res.status(200).json({post: response});
         }).catch(err => {
@@ -33,7 +53,7 @@ router.get('/id/:id', async (req, res) => {
 
 // todos os posts do usuario logado
 router.get('/userLogged', ProtectedRoute, async (req, res) => {
-    await Post.findAll({where: {username: req.userLoggedIn.username}, order: [['id', 'DESC']] })
+    await Post.findAll({where: {user_id: req.userLoggedIn.id}, order: [['id', 'DESC']] })
         .then(response => {
             res.status(200).json({posts: response});
         }).catch(err => {
@@ -45,11 +65,11 @@ router.post('/new', ProtectedRoute, async (req, res) => {
     
     const {title, content} = req.body;
     const author  = req.userLoggedIn.name;
-    const username = req.userLoggedIn.username;
+    const user_id = req.userLoggedIn.id;
 
     await Post.create({
         author,
-        username,
+        user_id,
         title,
         content
     }).then((response) => {

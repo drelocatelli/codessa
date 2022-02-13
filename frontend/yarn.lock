@@ -371,6 +371,11 @@ ast-types-flow@^0.0.7:
   resolved "https://registry.npmjs.org/ast-types-flow/-/ast-types-flow-0.0.7.tgz"
   integrity sha1-9wtzXGvKGlycItmCw+Oef+ujva0=
 
+autobind-decorator@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
+  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
+
 axe-core@^4.3.5:
   version "4.4.1"
   resolved "https://registry.npmjs.org/axe-core/-/axe-core-4.4.1.tgz"
@@ -489,6 +494,11 @@ core-js-pure@^3.20.2:
   version "3.21.0"
   resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.21.0.tgz"
   integrity sha512-VaJUunCZLnxuDbo1rNOzwbet9E1K9joiXS5+DQMPtgxd24wfsZbJZMMfQLGYMlCUvSxLfsRUUhoOR2x28mFfeg==
+
+core-js@^3.21.0:
+  version "3.21.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.21.0.tgz#f479dbfc3dffb035a0827602dd056839a774aa71"
+  integrity sha512-YUdI3fFu4TF/2WykQ2xzSiTQdldLB4KVuL9WeAy5XONZYt5Cun/fpQvctoKbCgvPhmzADeesTk/j2Rdx77AcKQ==
 
 cross-spawn@^7.0.2:
   version "7.0.3"
@@ -1189,6 +1199,21 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
+
+jodit-react@^1.1.24:
+  version "1.1.24"
+  resolved "https://registry.yarnpkg.com/jodit-react/-/jodit-react-1.1.24.tgz#1bc8617dce30804847075e7fac7ab2f8f8a31c70"
+  integrity sha512-7Hd8j6QmnsSaYugw6iBHH+TaceW5MhapOelbLpqm4JrE5bqU4nyb1Xy/ZYGHXf+0kJsLk9J/POphFkqzvraIzg==
+  dependencies:
+    jodit "^3.9.4"
+
+jodit@^3.13.6, jodit@^3.9.4:
+  version "3.13.6"
+  resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.13.6.tgz#909a2ae92a258494a2492369359569b7e86d277f"
+  integrity sha512-0CHSB1FtZ4avpnGMqSC5mrPVJbfBHaANRLaOZHZol1riOee4m21GVldm91lhAqTxTjZoJjL+bf4OOutRhj3GaQ==
+  dependencies:
+    autobind-decorator "^2.4.0"
+    core-js "^3.21.0"
 
 js-sha3@0.8.0:
   version "0.8.0"

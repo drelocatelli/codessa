@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -7,6 +8,8 @@ import { PrivateRoute } from "../../Containers/SessionManagement";
 import { Post } from "../../Services/Posts/PostService";
 
 export default function Page() {
+
+    const [blockButton, setButtonConfig] = useState(false);
 
     const {handleSubmit, register} = useForm();
     const route = useRouter();
@@ -18,6 +21,7 @@ export default function Page() {
         if(!isDataEmpty) {
             Post(data)
                 .then(response => {
+                    setButtonConfig(true);
                     toast.success('Postagem adicionada!', {id: 'post_added'});
                     route.push('/dashboard');
                 }).catch(err => {
@@ -43,7 +47,8 @@ export default function Page() {
                     </Form.Group>
                         <textarea {...register('content')} className='form-control'></textarea> <br />
                     <Form.Group>
-                        <Button variant='primary' type='submit'>Enviar postagem</Button>
+                        <Button variant='primary' type='submit'
+                        disabled={blockButton}>Enviar postagem</Button>
                     </Form.Group>
                 </form>
             </div>
