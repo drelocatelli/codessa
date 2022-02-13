@@ -32,7 +32,7 @@ export default function Page(props) {
             <Toaster />
             <Container>
                 <h5>Gerenciar permissões</h5> <br />
-                <table border='0' width={'100%'}>
+                <table border='0' align='center' width={'100%'}>
                     <tr>
                         <th>Nome</th>
                         <th>Usuário</th>
@@ -46,11 +46,11 @@ export default function Page(props) {
                             <td>{user.permissions}</td>
                             <td>
                                 <form onSubmit={(e) => e.preventDefault()}>
-                                    <label htmlFor="admin">ADMIN</label>
-                                    <input type='radio' name='permission' data-user={user.id} onChange={e => setPermission(e, 'ADMIN')} id='admin' checked={(user.permissions) == 'ADMIN' ? true : false} />
+                                    <label htmlFor={`ADMIN_${user.id}`}>ADMIN</label>
+                                    <input type='radio' name='permission' data-user={user.id} onChange={e => setPermission(e, 'ADMIN')} id={`ADMIN_${user.id}`} checked={(user.permissions) == 'ADMIN' ? true : false} />
                                     &nbsp;&nbsp;
-                                    <label htmlFor="user">USER</label>
-                                    <input type='radio' name='permission' data-user={user.id}  onChange={e => setPermission(e, 'USER')} id='user' checked={(user.permissions) == 'USER' ? true : false} />
+                                    <label htmlFor={`USER_${user.id}`}>USER</label>
+                                    <input type='radio' name='permission' data-user={user.id}  onChange={e => setPermission(e, 'USER')} id={`USER_${user.id}`} checked={(user.permissions) == 'USER' ? true : false} />
                                 </form>
                             </td>
                         </tr>
