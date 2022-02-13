@@ -9,6 +9,8 @@ export default function Page(props) {
 
     const { posts } = props;
 
+    console.log(posts)
+
     return (
         <MainSession>
             <Container>
@@ -36,7 +38,7 @@ export function Posts({ posts }) {
                         <Link href={`/dashboard/article/${post.id}`}>{post.title}</Link>
                     </h5>
                     <div className={stylesPosts.post_details}>
-                        <li><b>Autor:</b> {post.author}</li>
+                        <li><b>Autor:</b> {post.User.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>

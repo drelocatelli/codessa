@@ -53,7 +53,18 @@ router.get('/id/:id', async (req, res) => {
 
 // todos os posts do usuario logado
 router.get('/userLogged', ProtectedRoute, async (req, res) => {
-    await Post.findAll({where: {user_id: req.userLoggedIn.id}, order: [['id', 'DESC']] })
+
+    User.hasMany(Post, {foreignKey: 'user_id'});
+    Post.belongsTo(User, {foreignKey: 'user_id'});
+    
+    await Post.findAll({
+        where: {user_id: req.userLoggedIn.id}, 
+        order: [['id', 'DESC']],
+        include: [{
+            model: User,
+            attributes: ['name']
+        }]
+    })
         .then(response => {
             res.status(200).json({posts: response});
         }).catch(err => {
