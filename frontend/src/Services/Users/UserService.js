@@ -11,3 +11,17 @@ export async function GetAllUsers(ctx) {
         }
     });
 }
+
+export async function SetPermission(token, id, permission) {
+    return await axios({
+        method: 'POST',
+        url: `${ENDPOINT}/users/permission`,
+        data: {
+            id,
+            permission
+        },
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+}

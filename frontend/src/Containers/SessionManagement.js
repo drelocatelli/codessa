@@ -9,25 +9,26 @@ export async function LoadSession(ctx) {
 
     console.log('Check whether user already logged');
 
-    const {TOKEN_CODESSA} = parseCookies(ctx);
+    const { TOKEN_CODESSA } = parseCookies(ctx);
 
-    if(typeof TOKEN_CODESSA != 'undefined') {
+    if (typeof TOKEN_CODESSA != 'undefined') {
         let revalidate = await RevalidateLogin(TOKEN_CODESSA);
-        switch(revalidate.status) {
-            case 200:
+        if (revalidate.status == 200) {
+            if(revalidate.data.user.permissions == 'ADMIN') {
                 return {
                     redirect: {
                         destination: '/dashboard',
                         permanent: false,
                     },
                 };
+            }
         }
     }
 
     return {
         props: {}
     }
-    
+
 }
 
 
@@ -36,14 +37,16 @@ export async function PrivateRoute(ctx) {
 
     console.log('Check user in private route');
 
-    const {TOKEN_CODESSA} = parseCookies(ctx);
+    const { TOKEN_CODESSA } = parseCookies(ctx);
 
-    if(typeof TOKEN_CODESSA != 'undefined') {
+    if (typeof TOKEN_CODESSA != 'undefined') {
         let revalidate = await RevalidateLogin(TOKEN_CODESSA);
-        if(revalidate.status == 200) {
-            return {
-               props: {}
-            };
+        if (revalidate.status == 200) {
+            if (revalidate.data.user.permissions == 'ADMIN') {
+                return {
+                    props: {}
+                };
+            }
         }
     }
 

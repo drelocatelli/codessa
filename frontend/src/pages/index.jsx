@@ -9,7 +9,7 @@ import { LoadSession } from "../Containers/SessionManagement";
 export default function Page(props) {
 
     const { posts } = props;
-   
+
     return (
         <Main>
             <Container>
@@ -37,7 +37,7 @@ export default function Page(props) {
 }
 
 export function Posts({ posts }) {
-    if (posts == null)
+    if (posts == null || posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
                 Nenhuma postagem foi encontrada.

@@ -14,7 +14,7 @@ function ProtectedRoute(req, res, next) {
             if(err) {
                 res.status(401).json({msg: 'Token inválido'});
             }else {
-                req.userLoggedIn = {id: data.id, username: data.username, name: data.name};
+                req.userLoggedIn = {id: data.id, username: data.username, name: data.name, permissions: data.permissions};
                 next();
             }
         });

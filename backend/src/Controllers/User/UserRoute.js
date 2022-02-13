@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
         if (account != null) {
             if (bcrypt.compareSync(password, account.password)) {
                 if (account.permissions == 'ADMIN') {
-                    jwt.sign({ id: account.id, username: account.username, name: account.name }, JWTSecret, (err, token) => {
+                    jwt.sign({ id: account.id, username: account.username, name: account.name, permissions: account.permissions }, JWTSecret, (err, token) => {
                         if (err) {
                             res.status(500).json({ msg: 'Erro interno' });
                         } else {
@@ -54,6 +54,20 @@ router.post('/login', async (req, res) => {
 
 });
 
+router.post('/permission', ProtectedRoute, async(req, res) => {
+
+    await User.update(
+            {permissions: req.body.permission},
+            {where: {id: req.body.id}}
+        )
+        .then(response => {
+            res.status(200).json({response});
+        }).catch(err => {
+            res.status(404).json({err});
+        });
+
+});
+
 router.post('/register', async (req, res) => {
 
     const { name, username, password } = req.body;
@@ -71,8 +85,21 @@ router.post('/register', async (req, res) => {
 
 });
 
-router.get('/revalidate', ProtectedRoute, (req, res) => {
-    res.json({ userLoggedIn: {id: req.userLoggedIn.id, username: req.userLoggedIn.username, name: req.userLoggedIn.name} });
+router.get('/revalidate', ProtectedRoute, async (req, res) => {
+
+    await User.findOne({where: {id: req.userLoggedIn.id}})
+        .then(response => {
+            let user = {
+                id: response.id,
+                name: response.name,
+                username: response.username,
+                permissions: response.permissions
+            }
+            res.status(200).json({user});  
+        }).catch(err => {
+            res.status(400).json({err});
+        });
+    
 });
 
 module.exports = router;

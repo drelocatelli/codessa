@@ -1,16 +1,35 @@
+import { useRouter } from "next/router";
+import { parseCookies } from "nookies";
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 import MainSession from "../../Containers/main_session";
 import { PrivateRoute } from "../../Containers/SessionManagement";
-import { GetAllUsers } from "../../Services/Users/UserService";
+import { GetAllUsers, SetPermission } from "../../Services/Users/UserService";
 
 export default function Page(props) {
 
+    const route = useRouter();
     const { users } = props;
-    console.log(users);
 
+    async function setPermission(e, permission) {
+
+        let userId = e.target.dataset.user;
+        console.log(`Mudando permissão do usuário ${userId} para ${permission}`);
+
+        SetPermission(parseCookies()['TOKEN_CODESSA'], userId, permission)
+            .then(res => {
+                route.reload();
+            }).catch(err => {
+                toast.error('Ocorreu um erro', {id : 'permission_error'});
+            });
+
+
+    }
+    
     return (
         <MainSession>
+            <Toaster />
             <Container>
                 <h5>Gerenciar permissões</h5> <br />
                 <table border='0' width={'100%'}>
@@ -21,10 +40,19 @@ export default function Page(props) {
                         <th>Editar permissão</th>
                     </tr>
                     {users.map(user => (
-                        <tr>
+                        <tr key={user.id}>
                             <td>{user.name}</td>
                             <td>{user.username}</td>
                             <td>{user.permissions}</td>
+                            <td>
+                                <form onSubmit={(e) => e.preventDefault()}>
+                                    <label htmlFor="admin">ADMIN</label>
+                                    <input type='radio' name='permission' data-user={user.id} onChange={e => setPermission(e, 'ADMIN')} id='admin' checked={(user.permissions) == 'ADMIN' ? true : false} />
+                                    &nbsp;&nbsp;
+                                    <label htmlFor="user">USER</label>
+                                    <input type='radio' name='permission' data-user={user.id}  onChange={e => setPermission(e, 'USER')} id='user' checked={(user.permissions) == 'USER' ? true : false} />
+                                </form>
+                            </td>
                         </tr>
                     ))}
                 </table>

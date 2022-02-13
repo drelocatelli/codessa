@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { Button, Container, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -6,6 +7,8 @@ import { LoadSession } from "../../Containers/SessionManagement";
 import { Register } from "../../Services/Authentication/AuthService";
 
 export default function Page() {
+
+    const route = useRouter();
 
     const {handleSubmit, register} = useForm();
 
@@ -22,6 +25,7 @@ export default function Page() {
                 }
                 Register(data)
                     .then((response) => {
+                        route.push('/admin');
                         toast.success(response.data.msg, {id: 'register_success'});
                     }).catch(err => {
                         console.log(err.response)
