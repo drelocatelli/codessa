@@ -14,7 +14,7 @@ export async function LoadSession(ctx) {
     if (typeof TOKEN_CODESSA != 'undefined') {
         let revalidate = await RevalidateLogin(TOKEN_CODESSA);
         if (revalidate.status == 200) {
-            if(revalidate.data.user.permissions == 'ADMIN') {
+            if(revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST') {
                 return {
                     redirect: {
                         destination: '/dashboard',
@@ -42,7 +42,7 @@ export async function PrivateRoute(ctx) {
     if (typeof TOKEN_CODESSA != 'undefined') {
         let revalidate = await RevalidateLogin(TOKEN_CODESSA);
         if (revalidate.status == 200) {
-            if (revalidate.data.user.permissions == 'ADMIN') {
+            if (revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST') {
                 return {
                     props: {}
                 };

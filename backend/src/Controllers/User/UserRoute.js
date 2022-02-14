@@ -5,6 +5,7 @@ require('dotenv/config');
 const User = require('../../Models/User');
 const CheckField = require('../../Utils/Validation');
 const ProtectedRoute = require('../../Middlewares/AuthMiddleware');
+const Op = require('sequelize').Op;
 
 const router = express.Router();
 const JWTSecret = process.env.JWT_PASS;
@@ -13,8 +14,21 @@ router.use((req, res, next) => {
     next();
 });
 
+router.get('/getNotMe', ProtectedRoute, async (req, res) => {
+    await User.findAll({
+        where: {id: {[Op.ne]: req.userLoggedIn.id}},
+        attributes: ['id', 'name', 'username', 'permissions'],
+    })
+        .then((response) => {
+            res.status(200).json({response});
+        }).catch(err => {
+            res.status(404).json({msg: 'Não foi possível retornar usuários'});
+        });    
+});
+
+// get all users
 router.get('/get', ProtectedRoute, async (req, res) => {
-    await User.findAll()
+    await User.findAll({attributes: ['id', 'name', 'username', 'permissions']})
         .then((response) => {
             res.status(200).json({response});
         }).catch(err => {
@@ -30,7 +44,7 @@ router.post('/login', async (req, res) => {
 
         if (account != null) {
             if (bcrypt.compareSync(password, account.password)) {
-                if (account.permissions == 'ADMIN') {
+                if (account.permissions == 'ADMIN' || account.permissions == 'POST') {
                     jwt.sign({ id: account.id, username: account.username, name: account.name, permissions: account.permissions }, JWTSecret, (err, token) => {
                         if (err) {
                             res.status(500).json({ msg: 'Erro interno' });
@@ -55,16 +69,24 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/permission', ProtectedRoute, async(req, res) => {
+    
+    const user = await User.findOne({
+        where: {id: req.body.id}
+    });
 
-    await User.update(
-            {permissions: req.body.permission},
-            {where: {id: req.body.id}}
-        )
-        .then(response => {
-            res.status(200).json({response});
-        }).catch(err => {
-            res.status(404).json({err});
-        });
+    if(req.userLoggedIn.permissions != 'ADMIN') {
+        res.status(401).json({msg: 'Você não possui permissões'});
+        return;
+    }
+    
+    if(!user) {
+        res.status(404).json({msg: 'Usuário não encontrado'});
+        return;
+    }
+    
+    user.permissions = req.body.permission;
+    await user.save();
+    res.status(200).json({id: user.id, name: user.name, username: user.username, permissions: user.permissions});
 
 });
 

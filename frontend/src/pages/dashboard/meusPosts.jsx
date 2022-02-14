@@ -9,8 +9,6 @@ export default function Page(props) {
 
     const { posts } = props;
 
-    console.log(posts)
-
     return (
         <MainSession>
             <Container>

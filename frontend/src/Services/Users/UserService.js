@@ -5,7 +5,7 @@ import { ENDPOINT } from "../Service";
 export async function GetAllUsers(ctx) {
     return await axios({
         method: 'GET',
-        url: `${ENDPOINT}/users/get`,
+        url: `${ENDPOINT}/users/getNotMe`,
         headers: {
             'Authorization': `Bearer ${parseCookies(ctx)['TOKEN_CODESSA']}`
         }
