@@ -2,7 +2,8 @@ import { parseCookies } from 'nookies';
 import {DestroyLogin, SaveLogin} from './AuthAction';
 
 const INITIAL_STATE = {
-    TOKEN_CODESSA: parseCookies().TOKEN_CODESSA_CODESSA ?? undefined,
+    TOKEN_CODESSA: parseCookies().TOKEN_CODESSA ?? undefined,
+    USER_DATA: undefined,
 }
 
 export default function(state = INITIAL_STATE, action) {

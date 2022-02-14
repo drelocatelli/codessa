@@ -10,6 +10,7 @@ import { GetAllUsers, SetPermission } from "../../Services/Users/UserService";
 export default function Page(props) {
 
     const route = useRouter();
+
     const [users, setUsers] = useState(props.users);
 
     async function setPermission(e, permission) {
@@ -21,21 +22,21 @@ export default function Page(props) {
             .then(res => {
 
                 let replacedUser = users.map(user => {
-                    if(user.id == userId) {
+                    if (user.id == userId) {
                         return res.data;
                     }
                     return user;
                 });
                 setUsers(replacedUser)
             }).catch(err => {
-                if(err.response.data.msg) {
-                    toast.error(err.response.data.msg, {id : 'permission_error'});
-                }else {
-                    toast.error('Ocorreu um erro', {id : 'permission_error'});
+                if (err.response.data.msg) {
+                    toast.error(err.response.data.msg, { id: 'permission_error' });
+                } else {
+                    toast.error('Ocorreu um erro', { id: 'permission_error' });
                 }
             });
     }
-    
+
     return (
         <MainSession>
             <Toaster />
@@ -46,25 +47,31 @@ export default function Page(props) {
                         <th>Nome</th>
                         <th>Usuário</th>
                         <th>Permissão</th>
-                        <th>Editar permissão</th>
+                        {(props.userLoggedIn.permissions == 'ADMIN') ?
+                            (
+                                <th>Editar permissão</th>
+                            ) : null}
                     </tr>
                     {users.map(user => (
                         <tr key={user.id}>
                             <td>{user.name}</td>
                             <td>{user.username}</td>
                             <td>{user.permissions}</td>
-                            <td>
-                                <form onSubmit={(e) => e.preventDefault()}>
-                                    <label htmlFor={`ADMIN_${user.id}`}>ADMIN</label>
-                                    <input type='radio' name='permission' data-user={user.id} onChange={e => setPermission(e, 'ADMIN')} id={`ADMIN_${user.id}`} checked={(user.permissions) == 'ADMIN' ? true : false} />
-                                    &nbsp;&nbsp;
-                                    <label htmlFor={`POST_${user.id}`}>POST</label>
-                                    <input type='radio' name='permission' data-user={user.id}  onChange={e => setPermission(e, 'POST')} id={`POST_${user.id}`} checked={(user.permissions) == 'POST' ? true : false} />
-                                    &nbsp;&nbsp;
-                                    <label htmlFor={`USER_${user.id}`}>USER</label>
-                                    <input type='radio' name='permission' data-user={user.id}  onChange={e => setPermission(e, 'USER')} id={`USER_${user.id}`} checked={(user.permissions) == 'USER' ? true : false} />
-                                </form>
-                            </td>
+                            {(props.userLoggedIn.permissions == 'ADMIN') ?
+                                (
+                                    <td>
+                                        <form onSubmit={(e) => e.preventDefault()}>
+                                            <label htmlFor={`ADMIN_${user.id}`}>ADMIN</label>
+                                            <input type='radio' name='permission' data-user={user.id} onChange={e => setPermission(e, 'ADMIN')} id={`ADMIN_${user.id}`} checked={(user.permissions) == 'ADMIN' ? true : false} />
+                                            &nbsp;&nbsp;
+                                            <label htmlFor={`POST_${user.id}`}>POST</label>
+                                            <input type='radio' name='permission' data-user={user.id} onChange={e => setPermission(e, 'POST')} id={`POST_${user.id}`} checked={(user.permissions) == 'POST' ? true : false} />
+                                            &nbsp;&nbsp;
+                                            <label htmlFor={`USER_${user.id}`}>USER</label>
+                                            <input type='radio' name='permission' data-user={user.id} onChange={e => setPermission(e, 'USER')} id={`USER_${user.id}`} checked={(user.permissions) == 'USER' ? true : false} />
+                                        </form>
+                                    </td>
+                                ) : null}
                         </tr>
                     ))}
                 </table>
@@ -77,10 +84,13 @@ export async function getServerSideProps(ctx) {
 
     const getAllUsers = await GetAllUsers(ctx);
 
+    const userLoggedIn = { ...await PrivateRoute(ctx) }.props.user;
+
     return {
         ...await PrivateRoute(ctx),
         props: {
-            users: getAllUsers.data.response
+            users: getAllUsers.data.response,
+            userLoggedIn
         }
     }
 }

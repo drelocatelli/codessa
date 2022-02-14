@@ -44,7 +44,7 @@ export async function PrivateRoute(ctx) {
         if (revalidate.status == 200) {
             if (revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST') {
                 return {
-                    props: {}
+                    props: {user: revalidate.data.user}
                 };
             }
         }
