@@ -10,7 +10,7 @@ export default function HeaderSession() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href='/dashboard/'>Pagina Inicial</Nav.Link>
-                            <Nav.Link href='/dashboard/meusPosts'>Meu conteúdo</Nav.Link>
+                            <Nav.Link href='/dashboard/meuConteudo'>Meu conteúdo</Nav.Link>
                             <Nav.Link href='/dashboard/colaboradores'>Colaboradores</Nav.Link>
                             <Nav.Link href='/dashboard/postar'>Criar artigo</Nav.Link>
                         </Nav>

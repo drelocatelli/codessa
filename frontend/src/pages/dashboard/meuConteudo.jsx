@@ -12,8 +12,10 @@ export default function Page(props) {
     return (
         <MainSession>
             <Container>
-                <h5>Meu conteúdo</h5>
-                <Posts posts={posts} />
+                <ProfilePage pageProps={props}>
+                    <h5>Meu conteúdo</h5>
+                    <Posts posts={posts} />
+                </ProfilePage>
             </Container>
         </MainSession>
     );
@@ -50,14 +52,38 @@ export function Posts({ posts }) {
     );
 }
 
+export function ProfilePage(props) {
+
+    const { userLoggedIn } = props.pageProps;
+
+    console.log(userLoggedIn)
+
+    return (
+        <>
+            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'baseline'}}>
+                <div style={{marginRight: '10px'}}>
+                    <b>Seja bem-vindo, {userLoggedIn.name} !</b> <br />
+                    Sua permissão é {userLoggedIn.permissions}
+                </div>
+                <div>
+                    <img src={`https://github.com/${userLoggedIn.username}.png`} width={50} height={50} style={{borderRadius: '50px'}} />
+                </div>
+            </div>
+            {props.children}
+        </>
+    );
+}
+
 export async function getServerSideProps(ctx) {
 
     let posts = await GetAllPostsByUserLoggedIn(ctx);
+    const userLoggedIn = { ...await PrivateRoute(ctx) }.props.user;
 
     return {
         ...await PrivateRoute(ctx),
         props: {
-            posts: posts.data.posts
+            posts: posts.data.posts,
+            userLoggedIn
         }
     };
 
