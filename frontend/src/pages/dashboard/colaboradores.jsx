@@ -27,7 +27,8 @@ export default function Page(props) {
                     }
                     return user;
                 });
-                setUsers(replacedUser)
+                setUsers(replacedUser);
+                toast.success(`Permissão do usuário #${userId} alterada!`, {id: `USER_PERMISSION_${userId}` });
             }).catch(err => {
                 if (err.response.data.msg) {
                     toast.error(err.response.data.msg, { id: 'permission_error' });
