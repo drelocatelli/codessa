@@ -10,20 +10,16 @@ export default function HeaderSession() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href='/dashboard/'>Pagina Inicial</Nav.Link>
-                            <Nav.Link href='/dashboard/meuConteudo'>Meu conteúdo</Nav.Link>
-                            <Nav.Link href='/dashboard/colaboradores'>Colaboradores</Nav.Link>
-                            <Nav.Link href='/dashboard/postar'>Criar artigo</Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link href='/dashboard/logout'>Logout</Nav.Link>
-                        </Nav>
-                        {/* <Nav>
-                            <NavDropdown title="Login" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/login">Entrar</NavDropdown.Item>
+                            <NavDropdown title="Meu painel" id="basic-nav-dropdown">
+                                {/* <NavDropdown.Item href="/dashboard/postar">Criar artigo</NavDropdown.Item> */}
+                                <NavDropdown.Item href="/dashboard/meu_conteudo">Meu conteúdo</NavDropdown.Item>
+                                <NavDropdown.Item href="/dashboard/colaboradores">Colaboradores</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/registro">Criar conta</NavDropdown.Item>
+                                <NavDropdown.Item href="/dashboard/logout">Logout</NavDropdown.Item>
                             </NavDropdown>
-                        </Nav> */}
+                        </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

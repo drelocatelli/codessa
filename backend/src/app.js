@@ -1,8 +1,9 @@
 const express = require('express');
 require('dotenv').config();
 const conn = require('./db/conn');
-const UserRoute = require('./Controllers/User/UserRoute');
-const PostRoute = require('./Controllers/User/PostRoute');
+const UserController = require('./Controllers/User/UserController');
+const PostController = require('./Controllers/Post/PostController');
+const PhotoController = require('./Controllers/Photos/PhotoController');
 const cors = require('cors');
 
 const app = express();
@@ -17,9 +18,9 @@ app.get('/', function (req, res, next) {
     res.send('Endpoint do meu blog!');
 });
 
-app.use('/api/users', UserRoute);
-app.use('/api/posts', PostRoute);
-
+app.use('/api/users', UserController);
+app.use('/api/posts', PostController);
+app.use('/api/photos', PhotoController);
 
 //------------------------------------------------------
 

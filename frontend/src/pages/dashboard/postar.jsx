@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
@@ -10,7 +11,7 @@ import { Post } from "../../Services/Posts/PostService";
 export default function Page() {
 
     const [blockButton, setButtonConfig] = useState(false);
-
+    
     const {handleSubmit, register} = useForm();
     const route = useRouter();
 
@@ -39,6 +40,11 @@ export default function Page() {
         <MainSession>
             <Toaster />
             <div className="container">
+                <div style={{float: 'right'}}>
+                    <Link href='/dashboard/meu_conteudo'>
+                        <Button variant="danger">Meu conteudo</Button>
+                    </Link>
+                </div>
                 <h5>Adicionar postagem</h5>
                 <br />
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -47,6 +53,7 @@ export default function Page() {
                     </Form.Group>
                         <textarea {...register('content')} className='form-control'></textarea> <br />
                     <Form.Group>
+                        <br />
                         <Button variant='primary' type='submit'
                         disabled={blockButton}>Enviar postagem</Button>
                     </Form.Group>

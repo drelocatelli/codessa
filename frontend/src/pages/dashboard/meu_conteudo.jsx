@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import MainSession from '../../Containers/main_session';
 import { PrivateRoute } from '../../Containers/SessionManagement';
 import { GetAllPostsByUserLoggedIn } from '../../Services/Posts/PostService';
@@ -56,17 +56,22 @@ export function ProfilePage(props) {
 
     const { userLoggedIn } = props.pageProps;
 
-    console.log(userLoggedIn)
-
     return (
         <>
-            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'baseline'}}>
-                <div style={{marginRight: '10px'}}>
-                    <b>Seja bem-vindo, {userLoggedIn.name} !</b> <br />
-                    Sua permissão é {userLoggedIn.permissions}
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', margin: '60px 0' }}>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div>
+                        <img src={`https://github.com/${userLoggedIn.username}.png`} style={{ width: '50px', height: '50px', borderRadius: '50px' }} />
+                    </div>
+                    <div style={{ marginLeft: '10px' }}>
+                        <b>Seja bem-vindo, {userLoggedIn.name} !</b> <br />
+                        Sua permissão é {userLoggedIn.permissions}
+                    </div>
                 </div>
                 <div>
-                    <img src={`https://github.com/${userLoggedIn.username}.png`} width={50} height={50} style={{borderRadius: '50px'}} />
+                    <Link href='/dashboard/postar'>
+                        <Button variant="danger">Criar artigo</Button>
+                    </Link>
                 </div>
             </div>
             {props.children}
