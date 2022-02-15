@@ -35,7 +35,7 @@ router.get('/all/page/:page', async (req, res) => {
     User.hasMany(Post, {foreignKey: 'user_id'});
     Post.belongsTo(User, {foreignKey: 'user_id'});
 
-    let limit = 1;
+    let limit = 3;
     let offset = 0 + (req.params.page - 1) * limit;
     
     await Post.findAndCountAll({

@@ -15,7 +15,7 @@ export default function Page(props) {
     const [posts, setPosts] = useState(postsRows);
 
     const [morePosts, setMorePosts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(2);
+    const [currentPage, setCurrentPage] = useState(1);
     const [disabledButtonPosts, setDisabledButtonPosts] = useState(false);
 
 
@@ -28,12 +28,13 @@ export default function Page(props) {
                         variant='secondary'
                         disabled={disabledButtonPosts}
                         onClick={async () => {
-                            if (currentPage === posts.count) {
+                            setCurrentPage(currentPage + 1);
+                            if (currentPage < props.posts.count) {
                                 setDisabledButtonPosts(true);
                             }
-                            setCurrentPage(currentPage + 1);
+                            console.log(currentPage)
 
-                            await GetAllPosts(currentPage)
+                            await GetAllPosts(currentPage + 1)
                                 .then(response => {
                                     setMorePosts([...morePosts, ...response.data.posts.rows]);
                                 }).catch(err => {
@@ -55,7 +56,8 @@ export default function Page(props) {
             <Toaster />
             <Container>
                 <h5>Artigos publicados</h5>
-                <Posts posts={posts.rows} morePosts={morePosts} />
+                <Posts posts={posts.rows} />
+                <MorePosts morePosts={morePosts} />
                 <div className={stylesPosts.pagination}>
                         <LoadMore />
                     </div>
@@ -63,6 +65,30 @@ export default function Page(props) {
         </MainSession>
     );
 }
+
+export function MorePosts({ morePosts }) {
+    return (<>
+        {(morePosts.length != 0) ?
+            <>
+                {morePosts.map(post => (
+                    <div className={stylesPosts.post} key={post.id}>
+                        <h5>
+                            <Link href={`/article/${post.id}`}>{post.title}</Link>
+                        </h5>
+                        <div className={stylesPosts.post_details}>
+                            <li><b>Autor:</b> {post.User.name}</li>
+                            <li><b>Data:</b> {post.createdAt}</li>
+                        </div>
+                        <div className={stylesPosts.post_body}>
+                            {Parse(post.content.substring(0, 400))}
+                        </div>
+                    </div>
+                ))}
+            </>
+            : null}
+    </>);
+}
+
 
 export function Posts({ posts, morePosts }) {
    
@@ -79,7 +105,7 @@ export function Posts({ posts, morePosts }) {
             (
                 <div className={stylesPosts.post} key={post.id}>
                     <h5>
-                        <Link href={`/article/${post.id}`}>{post.title}</Link>
+                        <Link href={`/dashboard/article/${post.id}`}>{post.title}</Link>
                     </h5>
                     <div className={stylesPosts.post_details}>
                         <li><b>Autor:</b> {post.User.name}</li>
@@ -92,27 +118,10 @@ export function Posts({ posts, morePosts }) {
 
             )
             )}
-            {(morePosts.length != 0) ?
-                <>
-                    {morePosts.map(post => (
-                        <div className={stylesPosts.post} key={post.id}>
-                            <h5>
-                                <Link href={`/article/${post.id}`}>{post.title}</Link>
-                            </h5>
-                            <div className={stylesPosts.post_details}>
-                                <li><b>Autor:</b> {post.User.name}</li>
-                                <li><b>Data:</b> {post.createdAt}</li>
-                            </div>
-                            <div className={stylesPosts.post_body}>
-                                {Parse(post.content.substring(0, 400))}
-                            </div>
-                        </div>
-                    ))}
-                </>
-                : null}
         </div>
     );
 }
+
 
 export async function getServerSideProps(ctx) {
 
