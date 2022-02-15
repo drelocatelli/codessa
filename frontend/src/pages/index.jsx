@@ -85,8 +85,6 @@ export default function Page(props) {
 
 export function Posts({ posts, morePosts }) {
 
-    console.log(morePosts)
-
     if (posts == null || posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
