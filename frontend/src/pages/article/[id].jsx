@@ -25,7 +25,7 @@ export default function Page(props) {
     return (
         <Main>
             <Container>
-                <div style={{ marginTop: '7em' }}>
+                <div>
                     <div className={stylePostPage.post} key={post.id}>
                         <h5>
                             {post.title}

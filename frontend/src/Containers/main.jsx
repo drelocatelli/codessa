@@ -4,7 +4,7 @@ export default function Main(props) {
 
     return (
         <>
-            <Header/>
+            <Header />
 
             {props.children}
         </>

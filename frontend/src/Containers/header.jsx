@@ -1,29 +1,23 @@
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import Link from 'next/link';
+import styles from '../../styles/indexPage.module.css';
 
 export default function Header() {
 
     return (
-        <Navbar bg="light" expand="lg">
-            <Container>
-                {/* <Navbar.Brand href='/'>Codessa</Navbar.Brand> */}
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="/">Página inicial</Nav.Link>
-
-                    </Nav>
-                    <Nav>
-                        <Nav.Link href='/admin'>Criar artigo</Nav.Link>
-                    </Nav>
-                    {/* <Nav>
-                            <NavDropdown title="Login" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/login">Entrar</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="/registro">Criar conta</NavDropdown.Item>
-                            </NavDropdown>
-                        </Nav> */}
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <div className={styles.header}>
+             <div className={styles.fundo}>
+                <div className={styles.body}>
+                    <div className={styles.brand}>Codessa</div>
+                </div>
+            </div>
+            <div className={styles.container}>
+                <div className={styles.menu}>
+                    <ul>
+                        <li><Link href='/'>Página Inicial</Link></li>
+                        <li><Link href='/admin'>Criar artigo</Link></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     );
 }

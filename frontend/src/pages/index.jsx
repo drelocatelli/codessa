@@ -57,19 +57,6 @@ export default function Page(props) {
         <Main>
             <Toaster />
             <Container>
-                <div className={styles.profile}>
-                    <div className={styles.body}>
-                        <h1>Codessa</h1>
-                        <hr />
-                        A passionate fullstack developer from Brazil. <br />
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        <br /><br />
-                        <a href="#">Github</a>
-                    </div>
-                    <div>
-                        <img src='https://github.com/drelocatelli.png' />
-                    </div>
-                </div>
                 <div style={{ textAlign: 'center' }}>
                     <h2>Artigos</h2>
                     <Posts posts={posts.rows}  />
