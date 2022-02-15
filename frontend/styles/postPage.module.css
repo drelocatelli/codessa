@@ -1,0 +1,27 @@
+.post {
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    padding: 15px;
+    border: 1px solid transparent;
+}
+.post_body {
+    word-wrap: break-word;
+}
+
+.post_body img{
+    display: block;
+    max-width: 100%;
+}
+
+.post_details {
+    font-size: 12px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    color: #949494;
+    margin-bottom: 25px;
+}
+.post_details li {
+    list-style:none;
+    display: inline;
+    margin-right: 10px;
+}

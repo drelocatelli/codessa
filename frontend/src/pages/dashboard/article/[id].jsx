@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import MainSession from "../../../Containers/main_session";
 import { PrivateRoute } from "../../../Containers/SessionManagement";
 import { GetPostById } from "../../../Services/Posts/PostService";
+import stylePostPage from '../../../../styles/postPage.module.css'
 import Parse, { ParseWithImage } from "../../../Utils/HtmlParse";
 
 export default function Page(props) {
@@ -21,41 +22,17 @@ export default function Page(props) {
     return (
         <MainSession>
             <Container>
-                <div className="post" key={post.id}>
+                <div className={stylePostPage.post} key={post.id}>
                     <h5>
                         {post.title}
                     </h5>
-                    <div className='post-details'>
+                    <div className={stylePostPage.post_details}>
                         <li><b>Autor:</b> {post.User.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
-                    <div className="post-body">
+                    <div className={stylePostPage.post_body}>
                         {ParseWithImage(post.content)}
                     </div>
-
-                    <style jsx>{`
-                    .post {
-                        margin-bottom: 30px;
-                        background: #f8f9fa;
-                        padding: 15px;
-                        border: 1px solid transparent;
-                    }
-                    .post-body {
-                        word-wrap: break-word;
-                    }
-                    .post-details {
-                        font-size: 12px;
-                        border-top: 1px solid #ccc;
-                        padding-top: 10px;
-                        color: #949494;
-                        margin-bottom: 25px;
-                    }
-                    .post-details li {
-                        list-style:none;
-                        display: inline;
-                        margin-right: 10px;
-                    }
-                `}</style>
                 </div>
             </Container>
         </MainSession>

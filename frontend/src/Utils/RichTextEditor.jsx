@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { UploadPhoto } from "../Services/Posts/PhotoService";
+import { UploadPhoto } from "../Services/Photo/PhotoService";
 import { ENDPOINT } from "../Services/Service";
 
 export default function RichTextEditor({ handleChange, ...props }) {
