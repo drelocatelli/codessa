@@ -6,6 +6,10 @@
     opacity: 0.6;
 }
 
+.pagination {
+    margin: 20px 0;
+}
+
 .post {
     margin-bottom: 30px;
     background: #f8f9fa;
@@ -15,6 +19,9 @@
 }
 .post_body {
     word-wrap: break-word;
+}
+.post_body figure {
+    display: none;
 }
 .post_details {
     font-size: 12px;

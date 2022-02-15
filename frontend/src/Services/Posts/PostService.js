@@ -2,10 +2,10 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 import {ENDPOINT} from '../Service';
 
-export async function GetAllPosts() {
+export async function GetAllPosts(page = 1) {
     return await axios({
             method: 'GET',
-            url: `${ENDPOINT}/posts/all`
+            url: `${ENDPOINT}/posts/all/page/${page}`
         });
 }
 

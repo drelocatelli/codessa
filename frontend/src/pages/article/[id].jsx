@@ -4,7 +4,7 @@ import Main from "../../Containers/main";
 import { LoadSession } from "../../Containers/SessionManagement";
 import { GetPostById } from "../../Services/Posts/PostService";
 import Parse, { ParseWithImage } from "../../Utils/HtmlParse";
-import stylePostPage from '../../../../styles/postPage.module.css'
+import stylePostPage from '../../../styles/postPage.module.css'
 
 export default function Page(props) {
 
@@ -38,30 +38,6 @@ export default function Page(props) {
                             {ParseWithImage(post.content)}
                         </div>
                     </div>
-
-                    <style jsx>{`
-                    .post {
-                        margin-bottom: 30px;
-                        background: #f8f9fa;
-                        padding: 15px;
-                        border: 1px solid transparent;
-                    }
-                    .post-body {
-                        word-wrap: break-word;
-                    }
-                    .post-details {
-                        font-size: 12px;
-                        border-top: 1px solid #ccc;
-                        padding-top: 10px;
-                        color: #949494;
-                        margin-bottom: 25px;
-                    }
-                    .post-details li {
-                        list-style:none;
-                        display: inline;
-                        margin-right: 10px;
-                    }
-                `}</style>
                 </div>
             </Container>
         </Main>

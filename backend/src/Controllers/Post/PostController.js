@@ -30,6 +30,31 @@ router.get('/all', async (req, res) => {
     
 });
 
+router.get('/all/page/:page', async (req, res) => {
+
+    User.hasMany(Post, {foreignKey: 'user_id'});
+    Post.belongsTo(User, {foreignKey: 'user_id'});
+
+    let limit = 1;
+    let offset = 0 + (req.params.page - 1) * limit;
+    
+    await Post.findAndCountAll({
+        order: [['id', 'DESC']],
+        limit,
+        offset,
+        include: [{
+            model: User,
+            attributes: ['name']
+        }]
+    })
+    .then(response => {
+        res.status(200).json({posts: {page: parseInt(req.params.page), ...response}})
+    }).catch(err => {
+        res.status(500).json({err});
+    });
+
+});
+
 
 // posts por id
 router.get('/id/:id', async (req, res) => {
