@@ -5,6 +5,7 @@ import stylesPosts from '../../styles/posts.module.css';
 import { GetAllPosts } from "../Services/Posts/PostService";
 import Link from "next/link";
 import { LoadSession } from "../Containers/SessionManagement";
+import Parse from "../Utils/HtmlParse";
 
 export default function Page(props) {
 
@@ -57,7 +58,7 @@ export function Posts({ posts }) {
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>
-                        {`${post.content.substring(0, 400)} ...`}
+                        {Parse(post.content.substring(0, 400))}
                     </div>
                 </div>
 

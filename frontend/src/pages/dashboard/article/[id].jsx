@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import MainSession from "../../../Containers/main_session";
 import { PrivateRoute } from "../../../Containers/SessionManagement";
 import { GetPostById } from "../../../Services/Posts/PostService";
+import Parse, { ParseWithImage } from "../../../Utils/HtmlParse";
 
 export default function Page(props) {
 
@@ -29,7 +30,7 @@ export default function Page(props) {
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className="post-body">
-                        {post.content}
+                        {ParseWithImage(post.content)}
                     </div>
 
                     <style jsx>{`

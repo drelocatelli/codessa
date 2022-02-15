@@ -4,6 +4,7 @@ import MainSession from '../../Containers/main_session';
 import { PrivateRoute } from '../../Containers/SessionManagement';
 import { GetAllPostsByUserLoggedIn } from '../../Services/Posts/PostService';
 import stylesPosts from '../../../styles/posts.module.css';
+import Parse from '../../Utils/HtmlParse';
 
 export default function Page(props) {
 
@@ -42,7 +43,7 @@ export function Posts({ posts }) {
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>
-                        {`${post.content.substring(0, 400)} ...`}
+                        {Parse(post.content.substring(0, 400))}
                     </div>
                 </div>
 

@@ -9,10 +9,10 @@ router.use((req, res, next) => {
     next();
 });
 
-router.post('/store', [ProtectedRoute, multer(multerConfig).single('file')], (req, res) => {
+router.post('/store', [ProtectedRoute, multer(multerConfig).single('files')], (req, res) => {
     console.log(req.file);
 
-    return res.json({file: req.file.filename});
+    return res.json({filename: req.file.filename});
 });
 
 module.exports = router;

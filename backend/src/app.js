@@ -5,12 +5,16 @@ const UserController = require('./Controllers/User/UserController');
 const PostController = require('./Controllers/Post/PostController');
 const PhotoController = require('./Controllers/Photos/PhotoController');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
+// public files
+app.use('/api/public', express.static(__dirname + '/public'));
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
 
 // routes
 
