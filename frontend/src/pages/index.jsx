@@ -29,14 +29,16 @@ export default function Page(props) {
                         disabled={disabledButtonPosts}
                         onClick={async () => {
                             setCurrentPage(currentPage + 1);
-                            if (currentPage < props.posts.count) {
-                                setDisabledButtonPosts(true);
-                            }
-                            console.log(currentPage)
 
                             await GetAllPosts(currentPage + 1)
                                 .then(response => {
+                                    let rowsLength = response.data.posts.rows.length;
+                                    if (rowsLength == 0) {
+                                        setDisabledButtonPosts(true);
+                                        toast.error('Não há mais artigos para carregar');
+                                    }
                                     setMorePosts([...morePosts, ...response.data.posts.rows]);
+
                                 }).catch(err => {
                                     console.log(err);
                                 });

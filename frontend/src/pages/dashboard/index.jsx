@@ -4,7 +4,7 @@ import { PrivateRoute } from "../../Containers/SessionManagement";
 import stylesPosts from '../../../styles/posts.module.css';
 import { GetAllPosts } from "../../Services/Posts/PostService";
 import Link from "next/link";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Parse from "../../Utils/HtmlParse";
 import { useState } from "react";
 
@@ -29,14 +29,16 @@ export default function Page(props) {
                         disabled={disabledButtonPosts}
                         onClick={async () => {
                             setCurrentPage(currentPage + 1);
-                            if (currentPage < props.posts.count) {
-                                setDisabledButtonPosts(true);
-                            }
-                            console.log(currentPage)
 
                             await GetAllPosts(currentPage + 1)
                                 .then(response => {
+                                    let rowsLength = response.data.posts.rows.length;
+                                    if (rowsLength == 0) {
+                                        setDisabledButtonPosts(true);
+                                        toast.error('Não há mais artigos para carregar', {id:'post-loading'});
+                                    }
                                     setMorePosts([...morePosts, ...response.data.posts.rows]);
+
                                 }).catch(err => {
                                     console.log(err);
                                 });
@@ -59,8 +61,8 @@ export default function Page(props) {
                 <Posts posts={posts.rows} />
                 <MorePosts morePosts={morePosts} />
                 <div className={stylesPosts.pagination}>
-                        <LoadMore />
-                    </div>
+                    <LoadMore />
+                </div>
             </Container>
         </MainSession>
     );
@@ -73,7 +75,7 @@ export function MorePosts({ morePosts }) {
                 {morePosts.map(post => (
                     <div className={stylesPosts.post} key={post.id}>
                         <h5>
-                            <Link href={`/article/${post.id}`}>{post.title}</Link>
+                            <Link href={`/dashboard/article/${post.id}`}>{post.title}</Link>
                         </h5>
                         <div className={stylesPosts.post_details}>
                             <li><b>Autor:</b> {post.User.name}</li>
@@ -91,7 +93,7 @@ export function MorePosts({ morePosts }) {
 
 
 export function Posts({ posts, morePosts }) {
-   
+
     if (posts == null || posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
