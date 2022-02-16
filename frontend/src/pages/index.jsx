@@ -11,6 +11,8 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function Page(props) {
 
+    console.log(props)
+
     let postsRows = props.posts;
 
     const [posts, setPosts] = useState(postsRows);

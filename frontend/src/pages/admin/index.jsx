@@ -1,7 +1,6 @@
 import { Container, Form, Button } from "react-bootstrap";
 import Main from "../../Containers/main";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
 import { Authenticate } from "../../Services/Authentication/AuthService";
 import { Toaster, toast } from "react-hot-toast";
 import { LoadSession } from "../../Containers/SessionManagement";
@@ -12,14 +11,13 @@ export default function Page() {
 
     const route = useRouter();
     
-    const dispatch = useDispatch();
     const { handleSubmit, register } = useForm();
 
     function login(data) {
         let isDataEmpty = Object.values(data).some(x => x === '' || x === null);
 
         if (!isDataEmpty) {
-            dispatch(Authenticate(data));
+            Authenticate(data);
         } else {
             toast.error('Campos não podem ser nulos!', {id: 'null_fields'});
         }
