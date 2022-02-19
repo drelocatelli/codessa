@@ -42,7 +42,10 @@ export default function Page(props) {
             <Toaster />
             <Container>
                 <h5>Colaboradores</h5> <br />
-                <table border='0' align='center' width={'100%'}>
+                {(users.length == 0) ? (
+                    <>Nenhum colaborador encontrado.</>
+                ) :
+                    (<table border='0' align='center' width={'100%'}>
                     <tr>
                         <th>Nome</th>
                         <th>Usuário</th>
@@ -74,7 +77,8 @@ export default function Page(props) {
                                 ) : null}
                         </tr>
                     ))}
-                </table>
+                </table>)
+                }
             </Container>
         </MainSession>
     );

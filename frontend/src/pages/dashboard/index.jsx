@@ -9,9 +9,7 @@ import { useState } from "react";
 
 export default function Page(props) {
 
-    let postsRows = props.posts;
-
-    const [posts, setPosts] = useState(postsRows);
+    const {posts} = props;
 
     const [morePosts, setMorePosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);

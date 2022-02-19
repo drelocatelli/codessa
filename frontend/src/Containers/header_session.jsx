@@ -5,11 +5,12 @@ export default function HeaderSession() {
     return(
         <Navbar bg="dark" variant='dark' expand="lg">
                 <Container>
-                    <Navbar.Brand href='/'>Codessa</Navbar.Brand>
+                    <Navbar.Brand href='/dashboard'>Codessa</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href='/dashboard/'>Pagina Inicial</Nav.Link>
+                            <Nav.Link href='/'>Visualizar</Nav.Link>
                         </Nav>
                         <Nav>
                             <NavDropdown title="Meu painel" id="basic-nav-dropdown">
