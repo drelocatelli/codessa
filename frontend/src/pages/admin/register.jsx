@@ -3,7 +3,6 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import Main from "../../Containers/main";
-import { LoadSession } from "../../Containers/SessionManagement";
 import { Register } from "../../Services/Authentication/AuthService";
 
 export default function Page() {
@@ -83,16 +82,5 @@ export default function Page() {
             </Container>
         </Main>
     );
-
-}
-
-export async function getServerSideProps(ctx) {
-
-    // console.log(ctx.req.url);
-
-    return {
-        ...await LoadSession(ctx),
-        props: {}
-    }
 
 }

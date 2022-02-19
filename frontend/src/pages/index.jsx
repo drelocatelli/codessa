@@ -1,21 +1,17 @@
-import { Button, Container, Pagination } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import Main from "../Containers/main";
-import styles from '../../styles/indexPage.module.css';
 import stylesPosts from '../../styles/posts.module.css';
 import { GetAllPosts } from "../Services/Posts/PostService";
 import Link from "next/link";
-import { LoadSession } from "../Containers/SessionManagement";
 import Parse from "../Utils/HtmlParse";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Page(props) {
-
-    console.log(props)
-
     let postsRows = props.posts;
-
+    
     const [posts, setPosts] = useState(postsRows);
+    // console.table(posts.rows)
 
     const [morePosts, setMorePosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -134,7 +130,6 @@ export async function getServerSideProps(ctx) {
     let posts = await GetAllPosts();
 
     return {
-        ...await LoadSession(ctx),
         props: { posts: posts.data.posts }
     }
 

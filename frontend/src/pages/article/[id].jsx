@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { Container } from "react-bootstrap";
 import Main from "../../Containers/main";
-import { LoadSession } from "../../Containers/SessionManagement";
 import { GetPostById } from "../../Services/Posts/PostService";
 import Parse, { ParseWithImage } from "../../Utils/HtmlParse";
 import stylePostPage from '../../../styles/postPage.module.css'
@@ -49,7 +48,6 @@ export async function getServerSideProps(ctx) {
     let posts = await GetPostById(ctx.query.id);
 
     return {
-        ...await LoadSession(ctx),
         props: { post: posts.data.post }
     }
 

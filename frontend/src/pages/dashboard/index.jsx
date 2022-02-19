@@ -1,6 +1,5 @@
 import { Button, Container } from "react-bootstrap";
 import MainSession from "../../Containers/main_session";
-import { PrivateRoute } from "../../Containers/SessionManagement";
 import stylesPosts from '../../../styles/posts.module.css';
 import { GetAllPosts } from "../../Services/Posts/PostService";
 import Link from "next/link";
@@ -130,7 +129,6 @@ export async function getServerSideProps(ctx) {
     let posts = await GetAllPosts();
 
     return {
-        ...await PrivateRoute(ctx),
         props: {
             posts: posts.data.posts
         }

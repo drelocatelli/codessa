@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { Container, Button } from 'react-bootstrap';
 import MainSession from '../../Containers/main_session';
-import { PrivateRoute } from '../../Containers/SessionManagement';
 import { GetAllPostsByUserLoggedIn } from '../../Services/Posts/PostService';
 import stylesPosts from '../../../styles/posts.module.css';
 import Parse from '../../Utils/HtmlParse';
+import { parseCookies } from 'nookies';
 
 export default function Page(props) {
 
@@ -83,10 +83,9 @@ export function ProfilePage(props) {
 export async function getServerSideProps(ctx) {
 
     let posts = await GetAllPostsByUserLoggedIn(ctx);
-    const userLoggedIn = { ...await PrivateRoute(ctx) }.props.user;
+    const userLoggedIn = JSON.parse(parseCookies(ctx)['userLoggedIn']);
 
     return {
-        ...await PrivateRoute(ctx),
         props: {
             posts: posts.data.posts,
             userLoggedIn

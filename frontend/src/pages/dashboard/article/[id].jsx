@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { Container } from "react-bootstrap";
 import MainSession from "../../../Containers/main_session";
-import { PrivateRoute } from "../../../Containers/SessionManagement";
 import { GetPostById } from "../../../Services/Posts/PostService";
 import stylePostPage from '../../../../styles/postPage.module.css'
 import Parse, { ParseWithImage } from "../../../Utils/HtmlParse";
@@ -45,7 +44,6 @@ export async function getServerSideProps(ctx) {
     let posts = await GetPostById(ctx.query.id);
 
     return {
-        ...await PrivateRoute(ctx),
         props: {
             post: posts.data.post
         }

@@ -2,8 +2,9 @@ import axios from "axios"
 import toast from "react-hot-toast";
 import { setCookie } from 'nookies';
 import { dayTime } from '../../Utils/CookieTime';
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { ENDPOINT } from "../Service";
+import fetchAdapter from '@vespaiach/axios-fetch-adapter';
 
 export function Authenticate(data) {
     return axios({
@@ -24,7 +25,10 @@ export function Authenticate(data) {
 }
 
 export async function RevalidateLogin(token) {
-    return await axios.get(`${ENDPOINT}/users/revalidate`, {
+    const axiosInstance = axios.create({
+        adapter: fetchAdapter
+    });
+    return await axiosInstance.get(`${ENDPOINT}/users/revalidate`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

@@ -3,7 +3,6 @@ import Main from "../../Containers/main";
 import { useForm } from "react-hook-form";
 import { Authenticate } from "../../Services/Authentication/AuthService";
 import { Toaster, toast } from "react-hot-toast";
-import { LoadSession } from "../../Containers/SessionManagement";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -62,13 +61,4 @@ export default function Page() {
             </Main>
         </>
     );
-}
-
-export async function getServerSideProps(ctx) {
-
-    return{
-        ...await LoadSession(ctx),
-        props: {}
-    }
-    
 }

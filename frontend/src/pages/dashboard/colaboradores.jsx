@@ -1,10 +1,9 @@
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import MainSession from "../../Containers/main_session";
-import { PrivateRoute } from "../../Containers/SessionManagement";
 import { GetAllUsers, SetPermission } from "../../Services/Users/UserService";
 
 export default function Page(props) {
@@ -85,10 +84,9 @@ export async function getServerSideProps(ctx) {
 
     const getAllUsers = await GetAllUsers(ctx);
 
-    const userLoggedIn = { ...await PrivateRoute(ctx) }.props.user;
+    const userLoggedIn = JSON.parse(parseCookies(ctx)['userLoggedIn']);
 
     return {
-        ...await PrivateRoute(ctx),
         props: {
             users: getAllUsers.data.response,
             userLoggedIn
