@@ -116,4 +116,32 @@ router.post('/new', ProtectedRoute, async (req, res) => {
     
 });
 
+router.put('/id/:id', ProtectedRoute, async (req, res) => {
+
+    await Post.update({
+            title: req.body.title ?? undefined,
+            content: req.body.content ?? undefined
+        },
+        {where: {id: req.params.id, user_id: req.userLoggedIn.id}}
+    ).then(response => {
+        res.status(200).json({msg: 'Artigo atualizado!'});
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({msg: 'Não foi possível atualizar o artigo!', err})
+    });
+    
+});
+
+router.delete('/id/:id', ProtectedRoute, async (req, res) => {
+
+    await Post.destroy({
+        where: {user_id: req.userLoggedIn.id, id: req.params.id}
+    }).then(response => {
+        res.status(200).json({msg: 'Artigo deletado!'});
+    }).catch(err => {
+        res.status(500).json({msg: 'Não foi possível deletar artigo', err});
+    });
+    
+});
+
 module.exports = router;

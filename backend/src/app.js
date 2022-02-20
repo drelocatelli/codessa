@@ -6,6 +6,8 @@ const PostController = require('./Controllers/Post/PostController');
 const PhotoController = require('./Controllers/Photos/PhotoController');
 const cors = require('cors');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('./swagger.json');
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+// middlewares
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // routes
 

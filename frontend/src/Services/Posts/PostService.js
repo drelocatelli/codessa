@@ -37,3 +37,24 @@ export function Post(data) {
         data
     });
 }
+
+export function UpdatePost(data, id) {
+    return axios({
+        method: 'PUT',
+        url: `${ENDPOINT}/posts/id/${id}`,
+        headers: {
+            'Authorization': `Bearer ${parseCookies()['TOKEN_CODESSA']}`
+        },
+        data
+    });
+}
+
+export function DeletePost(id) {
+    return axios({
+        method: 'DELETE',
+        url: `${ENDPOINT}/posts/id/${id}`,
+        headers: {
+            'Authorization': `Bearer ${parseCookies()['TOKEN_CODESSA']}`
+        }
+    });
+}

@@ -1,13 +1,16 @@
 import Link from 'next/link';
 import { Container, Button } from 'react-bootstrap';
 import MainSession from '../../Containers/main_session';
-import { GetAllPostsByUserLoggedIn } from '../../Services/Posts/PostService';
+import { DeletePost, GetAllPostsByUserLoggedIn } from '../../Services/Posts/PostService';
 import stylesPosts from '../../../styles/posts.module.css';
 import Parse from '../../Utils/HtmlParse';
 import { parseCookies } from 'nookies';
+import { route } from 'next/dist/server/router';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 export default function Page(props) {
-
+    
     const { posts } = props;
 
     return (
@@ -23,6 +26,9 @@ export default function Page(props) {
 }
 
 export function Posts({ posts }) {
+
+    const route = useRouter();
+    
     if (posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
@@ -35,6 +41,22 @@ export function Posts({ posts }) {
             {posts.map(post =>
             (
                 <div className={stylesPosts.post} key={post.id}>
+                    <div className='handle-buttons'>
+                        <li>
+                            <a href="javascript:void(0);"
+                                onClick={async () => {
+                                    await DeletePost(post.id)
+                                        .then(response => {
+                                            toast.success(`Artigo #${post.id} removido!`, {id: 'remove_article'});
+                                            route.reload();
+                                        }).catch(err => {
+                                            toast.error(`Impossível deletar o artigo #${post.id}`, {id: 'remove_article_error'});
+                                        });
+                                }}
+                            >Excluir</a>
+                        </li>
+                        <li><Link href={`editar/post/${post.id}`}>Editar</Link></li>
+                    </div>
                     <h5>
                         <Link href={`/dashboard/article/${post.id}`}>{post.title}</Link>
                     </h5>
@@ -45,6 +67,18 @@ export function Posts({ posts }) {
                     <div className={stylesPosts.post_body}>
                         {Parse(post.content.substring(0, 400))}
                     </div>
+                    <style jsx>{`
+                        .handle-buttons {
+                            float: right;
+                        }
+                        .handle-buttons li {
+                            display: inline;
+                            list-style:none;
+                        }
+                        .handle-buttons li:first-child {
+                            margin-right: 20px;
+                        }
+                    `}</style>
                 </div>
 
             )
