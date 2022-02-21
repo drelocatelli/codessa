@@ -6,12 +6,24 @@ const User = require('../../Models/User');
 const CheckField = require('../../Utils/Validation');
 const ProtectedRoute = require('../../Middlewares/AuthMiddleware');
 const Op = require('sequelize').Op;
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 const router = express.Router();
 const JWTSecret = process.env.JWT_PASS;
 
 router.use((req, res, next) => {
     next();
+});
+
+router.get('/all', async (req, res) => {
+    try {
+        const users = await prisma.user.findAll({});
+        res.json(users);
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.get('/getNotMe', ProtectedRoute, async (req, res) => {
