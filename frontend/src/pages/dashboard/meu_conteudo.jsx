@@ -3,7 +3,7 @@ import { Container, Button } from 'react-bootstrap';
 import MainSession from '../../Containers/main_session';
 import { DeletePost, GetAllPostsByUserLoggedIn } from '../../Services/Posts/PostService';
 import stylesPosts from '../../../styles/posts.module.css';
-import Parse from '../../Utils/HtmlParse';
+import Parse, { resumeText } from '../../Utils/HtmlParse';
 import { parseCookies } from 'nookies';
 import { route } from 'next/dist/server/router';
 import toast from 'react-hot-toast';
@@ -65,7 +65,7 @@ export function Posts({ posts }) {
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>
-                        {Parse(post.content.substring(0, 400))}
+                        {Parse(resumeText(post.content))}
                     </div>
                     <style jsx>{`
                         .handle-buttons {

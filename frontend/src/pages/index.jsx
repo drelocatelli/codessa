@@ -3,7 +3,7 @@ import Main from "../Containers/main";
 import stylesPosts from '../../styles/posts.module.css';
 import { GetAllPosts } from "../Services/Posts/PostService";
 import Link from "next/link";
-import Parse from "../Utils/HtmlParse";
+import Parse, { resumeText } from "../Utils/HtmlParse";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -83,7 +83,7 @@ export function MorePosts({ morePosts }) {
                             <li><b>Data:</b> {post.createdAt}</li>
                         </div>
                         <div className={stylesPosts.post_body}>
-                            {Parse(post.content.substring(0, 400))}
+                            {Parse(resumeText(post.content))}
                         </div>
                     </div>
                 ))}
@@ -114,7 +114,7 @@ export function Posts({ posts }) {
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>
-                        {Parse(post.content.substring(0, 400))}
+                        {Parse(resumeText(post.content))}
                     </div>
                 </div>
 

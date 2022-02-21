@@ -44,3 +44,14 @@ export function ParseWithImage(html) {
         </>
     );
 }
+
+export function resumeText(text, quantity = 200) {
+
+    text = text.replace(/\n|\r/g, "");
+    
+    if(text.length > quantity) {
+        return(` ${text.substring(0, quantity)} ... `);
+    }
+
+    return(text.substring(0, quantity));
+}

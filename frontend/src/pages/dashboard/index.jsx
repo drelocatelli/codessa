@@ -4,7 +4,7 @@ import stylesPosts from '../../../styles/posts.module.css';
 import { GetAllPosts } from "../../Services/Posts/PostService";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
-import Parse from "../../Utils/HtmlParse";
+import Parse, { resumeText } from "../../Utils/HtmlParse";
 import { useState } from "react";
 
 export default function Page(props) {
@@ -79,7 +79,7 @@ export function MorePosts({ morePosts }) {
                             <li><b>Data:</b> {post.createdAt}</li>
                         </div>
                         <div className={stylesPosts.post_body}>
-                            {Parse(post.content.substring(0, 400))}
+                            {Parse(resumeText(post.content))}
                         </div>
                     </div>
                 ))}
@@ -100,8 +100,9 @@ export function Posts({ posts, morePosts }) {
 
     return (
         <div style={{ marginTop: '28px' }}>
-            {posts.map(post =>
-            (
+            {posts.map(post => {
+            console.log(post.content.length);
+            return(
                 <div className={stylesPosts.post} key={post.id}>
                     <h5>
                         <Link href={`/dashboard/article/${post.id}`}>{post.title}</Link>
@@ -111,11 +112,11 @@ export function Posts({ posts, morePosts }) {
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>
-                        {Parse(post.content.substring(0, 400))}
+                        {Parse(resumeText(post.content))}
                     </div>
                 </div>
 
-            )
+            )}
             )}
         </div>
     );
