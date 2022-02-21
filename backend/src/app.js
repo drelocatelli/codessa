@@ -32,10 +32,10 @@ app.use('/api/photos', PhotoController);
 
 //------------------------------------------------------
 
-conn.sync()
-    .then(() => {
-    app.listen(process.env.PORT);
-})
-    .catch(error => {console.log(error)});
+// conn.sync()
+//     .then(() => {
+//     app.listen(process.env.PORT);
+// })
+//     .catch(error => {console.log(error)});
     
-// app.listen(process.env.port);
+app.listen(process.env.port);

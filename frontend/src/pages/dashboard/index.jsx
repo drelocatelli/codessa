@@ -15,9 +15,7 @@ export default function Page(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [disabledButtonPosts, setDisabledButtonPosts] = useState(false);
 
-
     function LoadMore() {
-
         if (props.posts.count > 1)
             return (
                 <>
@@ -55,7 +53,7 @@ export default function Page(props) {
             <Toaster />
             <Container>
                 <h5>Artigos publicados</h5>
-                <Posts posts={posts.rows} />
+                <Posts posts={posts} />
                 <MorePosts morePosts={morePosts} />
                 <div className={stylesPosts.pagination}>
                     <LoadMore />
@@ -75,7 +73,7 @@ export function MorePosts({ morePosts }) {
                             <Link href={`/dashboard/article/${post.id}`}>{post.title}</Link>
                         </h5>
                         <div className={stylesPosts.post_details}>
-                            <li><b>Autor:</b> {post.User.name}</li>
+                            <li><b>Autor:</b> {post.user.name}</li>
                             <li><b>Data:</b> {post.createdAt}</li>
                         </div>
                         <div className={stylesPosts.post_body}>
@@ -89,7 +87,7 @@ export function MorePosts({ morePosts }) {
 }
 
 
-export function Posts({ posts, morePosts }) {
+export function Posts({ posts }) {
 
     if (posts == null || posts.length == 0)
         return (
@@ -101,14 +99,13 @@ export function Posts({ posts, morePosts }) {
     return (
         <div style={{ marginTop: '28px' }}>
             {posts.map(post => {
-            console.log(post.content.length);
             return(
                 <div className={stylesPosts.post} key={post.id}>
                     <h5>
                         <Link href={`/dashboard/article/${post.id}`}>{post.title}</Link>
                     </h5>
                     <div className={stylesPosts.post_details}>
-                        <li><b>Autor:</b> {post.User.name}</li>
+                        <li><b>Autor:</b> {post.user.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>
@@ -129,7 +126,7 @@ export async function getServerSideProps(ctx) {
 
     return {
         props: {
-            posts: posts.data.posts
+            posts: posts.data.response
         }
     }
 

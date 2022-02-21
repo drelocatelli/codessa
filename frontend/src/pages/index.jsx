@@ -57,7 +57,7 @@ export default function Page(props) {
             <Container>
                 <div style={{ textAlign: 'center' }}>
                     <h2>Artigos</h2>
-                    <Posts posts={posts.rows}  />
+                    <Posts posts={posts}  />
                     <MorePosts morePosts={morePosts} />
                     <div className={stylesPosts.pagination}>
                         <LoadMore />
@@ -71,7 +71,7 @@ export default function Page(props) {
 
 export function MorePosts({ morePosts }) {
     return (<>
-        {(morePosts.length != 0) ?
+        {(morePosts.length > 0) ?
             <>
                 {morePosts.map(post => (
                     <div className={stylesPosts.post} key={post.id}>
@@ -79,7 +79,7 @@ export function MorePosts({ morePosts }) {
                             <Link href={`/article/${post.id}`}>{post.title}</Link>
                         </h5>
                         <div className={stylesPosts.post_details}>
-                            <li><b>Autor:</b> {post.User.name}</li>
+                            <li><b>Autor:</b> {post.user.name}</li>
                             <li><b>Data:</b> {post.createdAt}</li>
                         </div>
                         <div className={stylesPosts.post_body}>
@@ -93,7 +93,6 @@ export function MorePosts({ morePosts }) {
 }
 
 export function Posts({ posts }) {
-
     if (posts == null || posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
@@ -110,7 +109,7 @@ export function Posts({ posts }) {
                         <Link href={`/article/${post.id}`}>{post.title}</Link>
                     </h5>
                     <div className={stylesPosts.post_details}>
-                        <li><b>Autor:</b> {post.User.name}</li>
+                        <li><b>Autor:</b> {post.user.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylesPosts.post_body}>
@@ -130,7 +129,7 @@ export async function getServerSideProps(ctx) {
     let posts = await GetAllPosts();
 
     return {
-        props: { posts: posts.data.posts }
+        props: { posts: posts.data.response }
     }
 
 }

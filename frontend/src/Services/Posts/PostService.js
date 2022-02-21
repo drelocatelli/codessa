@@ -2,7 +2,7 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 import {ENDPOINT} from '../Service';
 
-export async function GetAllPosts(page = 1) {
+export async function GetAllPosts(page = 0) {
     return await axios({
             method: 'GET',
             url: `${ENDPOINT}/posts/all/page/${page}`

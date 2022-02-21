@@ -19,40 +19,32 @@ router.use((req, res, next) => {
 
 router.get('/all', async (req, res) => {
     try {
-        const users = await prisma.user.findAll({});
+        const users = await prisma.user.findMany({});
         res.json(users);
     } catch (error) {
-        next(error);
+        res.json({ msg: 'Não foi possível obter usuários' });
     }
 });
 
 router.get('/getNotMe', ProtectedRoute, async (req, res) => {
-    await User.findAll({
-        where: {id: {[Op.ne]: req.userLoggedIn.id}},
-        attributes: ['id', 'name', 'username', 'permissions'],
-    })
-        .then((response) => {
-            res.status(200).json({response});
-        }).catch(err => {
-            res.status(404).json({msg: 'Não foi possível retornar usuários'});
-        });    
-});
-
-// get all users
-router.get('/get', ProtectedRoute, async (req, res) => {
-    await User.findAll({attributes: ['id', 'name', 'username', 'permissions']})
-        .then((response) => {
-            res.status(200).json({response});
-        }).catch(err => {
-            res.status(404).json({msg: 'Não foi possível retornar usuários'});
-        });    
+    const user = await prisma.user.findMany({
+        where: { NOT: { id: { equals: req.userLoggedIn.id } } },
+    }).then(response => {
+        res.status(200).json({response});
+    }).catch(err => {
+        res.status(404).json({msg: 'Não foi possível retornar usuários'});
+    });
 });
 
 router.post('/login', async (req, res) => {
+
     const { username, password } = req.body;
 
     if (CheckField(username) && CheckField(password)) {
-        const account = await User.findOne({ where: { username } });
+
+        const account = await prisma.user.findUnique({
+            where: { username }
+        });
 
         if (account != null) {
             if (bcrypt.compareSync(password, account.password)) {
@@ -65,7 +57,7 @@ router.post('/login', async (req, res) => {
                         }
                     });
                 } else {
-                    res.status(406).json({msg: 'Você não possui permissão'})
+                    res.status(406).json({ msg: 'Você não possui permissão' })
                 }
             } else {
                 res.status(401).json({ msg: 'Senha inválida' });
@@ -81,59 +73,63 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/permission', ProtectedRoute, async(req, res) => {
-    
-    const user = await User.findOne({
-        where: {id: req.body.id}
-    });
 
     if(req.userLoggedIn.permissions != 'ADMIN') {
         res.status(401).json({msg: 'Você não possui permissões'});
         return;
     }
-    
-    if(!user) {
-        res.status(404).json({msg: 'Usuário não encontrado'});
-        return;
-    }
-    
-    user.permissions = req.body.permission;
-    await user.save();
-    res.status(200).json({id: user.id, name: user.name, username: user.username, permissions: user.permissions});
 
+    const user = await prisma.user.update({
+        where: {id: parseInt(req.body.id)},
+        data: {
+            permissions: req.body.permission
+        }
+    }).then(response => {
+        res.status(200).json({id: response.id, name: response.name, username: response.username, permissions: response.permissions});
+    }).catch(err => {
+        res.json({err});
+    });
+   
 });
 
 router.post('/register', async (req, res) => {
 
     const { name, username, password } = req.body;
 
-    await User.create({
-        name,
-        username,
-        password: bcrypt.hashSync(password, 10),
-        permission: 'USER'
-    }).then((response) => {
-        res.status(201).json({ msg: 'O usuário foi criado com sucesso!' });
-    }).catch(err => {
-        res.status(422).json({ msg: 'Não foi possível criar usuário.', err });
-    });
+    const user = await prisma.user.create({
+        data: {
+            name,
+            username,
+            password: bcrypt.hashSync(password, 10)
+        }
+    })
+        .then(response => {
+            res.status(201).json({ msg: 'O usuário foi criado com sucesso!' });
+        })
+        .catch(err => {
+            res.status(422).json({ msg: 'Não foi possível criar usuário.', err });
+        });
 
 });
 
 router.get('/revalidate', ProtectedRoute, async (req, res) => {
 
-    await User.findOne({where: {id: req.userLoggedIn.id}})
-        .then(response => {
-            let user = {
-                id: response.id,
-                name: response.name,
-                username: response.username,
-                permissions: response.permissions
-            }
-            res.status(200).json({user});  
-        }).catch(err => {
-            res.status(400).json({err});
-        });
-    
+    await prisma.user.findFirst({
+        where: {
+            id: req.userLoggedIn.id
+        }
+    }).then(response => {
+        let user = {
+            id: response.id,
+            name: response.name,
+            username: response.username,
+            permissions: response.permissions
+        }
+        res.status(200).json({ user });
+    }).catch(err => {
+        res.status(400).json({ err });
+    });
+
 });
 
 module.exports = router;

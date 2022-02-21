@@ -26,7 +26,7 @@ export default function Page(props) {
                         {post.title}
                     </h5>
                     <div className={stylePostPage.post_details}>
-                        <li><b>Autor:</b> {post.User.name}</li>
+                        <li><b>Autor:</b> {post.user.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
                     </div>
                     <div className={stylePostPage.post_body}>
