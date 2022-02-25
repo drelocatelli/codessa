@@ -18,7 +18,7 @@ router.get('/all/page/:page', async (req, res) => {
     let page = parseInt(req.params.page);
 
     const post = await prisma.post.findMany({
-        skip: page, 
+        skip: page,
         take: limit,
         orderBy: {
             id: 'desc'
@@ -27,11 +27,11 @@ router.get('/all/page/:page', async (req, res) => {
             user: true
         }
     }).then(response => {
-        res.status(200).json({response});
+        res.status(200).json({ response });
     }).catch(err => {
-        res.status(500).json({err});
+        res.status(500).json({ err });
     });
-    
+
 });
 
 
@@ -46,9 +46,9 @@ router.get('/id/:id', async (req, res) => {
             user: true
         }
     }).then(response => {
-        res.status(200).json({post: response});
+        res.status(200).json({ post: response });
     }).catch(err => {
-        res.status(500).json({msg: 'Não foi possível obter artigos', err});
+        res.status(500).json({ msg: 'Não foi possível obter artigos', err });
     });
 
 });
@@ -64,16 +64,15 @@ router.get('/userLogged', ProtectedRoute, async (req, res) => {
             user: true
         }
     }).then(response => {
-        res.status(200).json({posts: response});
+        res.status(200).json({ posts: response });
     }).catch(err => {
-        res.status(500).json({msg: 'Não foi possível obter artigos', err});
+        res.status(500).json({ msg: 'Não foi possível obter artigos', err });
     });
 });
 
 router.post('/new', ProtectedRoute, async (req, res) => {
-    
-    const {title, content} = req.body;
-    const author  = req.userLoggedIn.name;
+
+    const { title, content } = req.body;
     const user_id = req.userLoggedIn.id;
 
     const post = await prisma.post.create({
@@ -83,59 +82,41 @@ router.post('/new', ProtectedRoute, async (req, res) => {
             content
         }
     }).then(response => {
-        res.status(201).json({msg: 'Artigo criado!'});
+        res.status(201).json({ msg: 'Artigo criado!' });
     }).catch(err => {
-        res.status(500).json({msg: 'Não foi possível criar post', err});
+        res.status(500).json({ msg: 'Não foi possível criar post', err });
     });
-    
+
 });
 
 router.put('/id/:id', ProtectedRoute, async (req, res) => {
 
-    const post = await prisma.post.findUnique({
-        where: {
-            id: parseInt(req.params.id)
-        }
-    });
+    try {
+        const post = await prisma.post.findUnique({ where: { id: parseInt(req.params.id) } });
 
-    if(post && post.authorId == parseInt(req.userLoggedIn.id)) {
-        await prisma.post.update({
-            where: {id: post.id},
-            data: {
-                title: req.body.title || undefined,
-                content: req.body.content || undefined
-            }
-        }).then(response => {
-            res.status(200).json({msg: 'Artigo atualizado!'});
-        }).catch(err => {
-            res.status(500).json({msg: 'Não foi possível atualizar o artigo!', err})
-        });
-    } else {
-        res.status(500).json({msg: 'Não foi possível atualizar o artigo!', err})
+        if (post && post.authorId == parseInt(req.userLoggedIn.id)) {
+            await prisma.post.update({ where: { id: post.id }, data: { title: req.body.title || undefined, content: req.body.content || undefined } });
+            res.status(200).json({ msg: 'Artigo atualizado!' });
+        }
+
+    } catch (err) {
+        res.status(500).json({ msg: 'Não foi possível atualizar o artigo!', err });
     }
 
 });
 
 router.delete('/id/:id', ProtectedRoute, async (req, res) => {
+    try {
+        const post = await prisma.post.findUnique({ where: { id: parseInt(req.params.id) } });
 
-    const post = await prisma.post.findUnique({
-        where: {
-            id: parseInt(req.params.id)
+        if (post && post.authorId == parseInt(req.userLoggedIn.id)) {
+            await prisma.post.delete({ where: { id: post.id }, });
+            res.status(200).json({ msg: 'Artigo atualizado!' });
         }
-    });
 
-    if(post && post.authorId == parseInt(req.userLoggedIn.id)) {
-        await prisma.post.delete({
-            where: {id: post.id},
-        }).then(response => {
-            res.status(200).json({msg: 'Artigo atualizado!'});
-        }).catch(err => {
-            res.status(500).json({msg: 'Não foi possível atualizar o artigo!', err})
-        });
-    } else {
-        res.status(500).json({msg: 'Não foi possível atualizar o artigo!', err})
+    } catch (err) {
+        res.status(500).json({ msg: 'Não foi possível deletar o artigo!', err });
     }
-    
 });
 
 module.exports = router;
