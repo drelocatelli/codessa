@@ -24,7 +24,8 @@ router.get('/all/page/:page', async (req, res) => {
             id: 'desc'
         },
         include: {
-            user: true
+            user: true,
+            categorie: true
         }
     }).then(response => {
         res.status(200).json({ response });
@@ -43,7 +44,8 @@ router.get('/id/:id', async (req, res) => {
             id: parseInt(req.params.id)
         },
         include: {
-            user: true
+            user: true,
+            categorie: true
         }
     }).then(response => {
         res.status(200).json({ post: response });
@@ -70,16 +72,47 @@ router.get('/userLogged', ProtectedRoute, async (req, res) => {
     });
 });
 
+// get all categories
+router.get('/categorie/all', async (req, res) => {
+
+    try {
+        let categories = await prisma.categorie.findMany({});
+        res.status(200).json({categories});
+    } catch(err) {
+        res.status(500);
+    }
+    
+});
+
+// cria categoria
+router.post('/categorie/new', ProtectedRoute, async (req, res) => {
+
+    const { title } = req.body;
+    
+    if(req.userLoggedIn.permissions == 'ADMIN') {
+        try {
+            await prisma.categorie.create({ data: { title } });
+            res.status(201).json({msg: 'Categoria adicionada!'});
+        } catch(err) {
+            res.json({err});
+        }
+    }
+
+    return res.status(401);
+    
+});
+
 router.post('/new', ProtectedRoute, async (req, res) => {
 
-    const { title, content } = req.body;
+    const { title, content, categorie } = req.body;
     const user_id = req.userLoggedIn.id;
 
     const post = await prisma.post.create({
         data: {
             authorId: user_id,
             title,
-            content
+            content,
+            categorieId: parseInt(categorie)
         }
     }).then(response => {
         res.status(201).json({ msg: 'Artigo criado!' });

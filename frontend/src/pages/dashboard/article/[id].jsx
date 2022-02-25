@@ -9,6 +9,8 @@ export default function Page(props) {
 
     const { post } = props;
 
+    console.log(post)
+
     if (post == null)
         return (
             <MainSession>
@@ -28,6 +30,7 @@ export default function Page(props) {
                     <div className={stylePostPage.post_details}>
                         <li><b>Autor:</b> {post.user.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
+                        <li><b>Categoria:</b> {post.categorie.title} </li>
                     </div>
                     <div className={stylePostPage.post_body}>
                         {ParseWithImage(post.content)}
@@ -45,7 +48,7 @@ export async function getServerSideProps(ctx) {
 
     return {
         props: {
-            post: posts.data.post
+            post: posts.data.post,
         }
     };
 

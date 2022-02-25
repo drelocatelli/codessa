@@ -37,10 +37,10 @@ export async function refreshTokens(token) {
 
         let revalidate = await RevalidateLogin(token);
         let hasPermissions = revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST';
-        
+
         if(revalidate.status == 200 && hasPermissions) {
             return NextResponse.next().cookie('userLoggedIn', JSON.stringify(revalidate.data.user));
-        } 
+        }
 
     }
 

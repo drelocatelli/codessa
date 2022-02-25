@@ -26,6 +26,26 @@ export async function GetAllPostsByUserLoggedIn(ctx) {
     });
 }
 
+export function GetAllCategories() {
+    return axios({
+        method: 'GET',
+        url: `${ENDPOINT}/posts/categorie/all`,
+    });
+} 
+
+export function NewCategorie(data) {
+    return axios({
+        method: 'POST',
+        url: `${ENDPOINT}/posts/categorie/new`,
+        headers: {
+            'Authorization': `Bearer ${parseCookies()['TOKEN_CODESSA']}`
+        },
+        data
+    });
+} 
+
+
+
 export function Post(data) {
     
     return axios({

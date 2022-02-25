@@ -75,6 +75,7 @@ export function MorePosts({ morePosts }) {
                         <div className={stylesPosts.post_details}>
                             <li><b>Autor:</b> {post.user.name}</li>
                             <li><b>Data:</b> {post.createdAt}</li>
+                            <li><b>Categoria:</b> {post.categorie.title} </li>
                         </div>
                         <div className={stylesPosts.post_body}>
                             {Parse(resumeText(post.content))}
@@ -107,6 +108,7 @@ export function Posts({ posts }) {
                     <div className={stylesPosts.post_details}>
                         <li><b>Autor:</b> {post.user.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
+                        <li><b>Categoria:</b> {post.categorie.title} </li>
                     </div>
                     <div className={stylesPosts.post_body}>
                         {Parse(resumeText(post.content))}

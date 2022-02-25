@@ -5,10 +5,12 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import MainSession from "../../Containers/main_session";
-import { Post } from "../../Services/Posts/PostService";
+import { GetAllCategories, Post } from "../../Services/Posts/PostService";
 import RichTextEditor from "../../Utils/RichTextEditor";
 
-export default function Page() {
+export default function Page(props) {
+
+    console.log(props)
 
     const [content, setContent] = useState('');
     const [blockButton, setButtonConfig] = useState(false);
@@ -58,6 +60,14 @@ export default function Page() {
                     <Form.Group>
                         <Form.Control {...register('title')} type='text' placeholder='Título da postagem' /> <br />
                     </Form.Group>
+
+                    <Form.Select {...register('categorie')}>
+                        <option value="">Selecione a categoria</option>
+                        {props.categories.map(categorie => (
+                            <option value={categorie.id}>{categorie.title}</option>
+                        ))}
+                    </Form.Select>
+                    <br />
                     <RichTextEditor
                         onChange={(event, editor) => {
                             const data = editor.getData();
@@ -93,3 +103,13 @@ export default function Page() {
     );
 }
 
+export async function getServerSideProps(ctx) {
+    const categories = await GetAllCategories();
+
+    return {
+        props: {
+            categories: categories.data.categories
+        }
+    }
+    
+}

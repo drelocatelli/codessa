@@ -1,13 +1,16 @@
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { useState } from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import MainSession from "../../Containers/main_session";
+import { GetAllCategories } from "../../Services/Posts/PostService";
 import { GetAllUsers, SetPermission } from "../../Services/Users/UserService";
 
 export default function Page(props) {
 
+    console.log(props)
+    
     const route = useRouter();
 
     const [users, setUsers] = useState(props.users);
@@ -41,6 +44,16 @@ export default function Page(props) {
         <MainSession>
             <Toaster />
             <Container>
+                <h3>Administrar</h3>
+                <hr />
+                <div style={{float: 'right'}}>
+                    <Button variant='danger' onClick={() => route.push('cadastrar_categoria')}>Nova categoria</Button>
+                </div>
+                <h5>Categorias</h5>
+                {props.categories.map(categorie => (
+                    <li>{categorie.title}</li>
+                    ))}
+                <div style={{clear: 'both', marginBottom: '50px'}}></div>
                 <h5>Colaboradores</h5> <br />
                 {(users.length == 0) ? (
                     <>Nenhum colaborador encontrado.</>
@@ -89,11 +102,14 @@ export async function getServerSideProps(ctx) {
     const getAllUsers = await GetAllUsers(ctx);
 
     const userLoggedIn = JSON.parse(parseCookies(ctx)['userLoggedIn']);
+    
+    const categories = await GetAllCategories();
 
     return {
         props: {
             users: getAllUsers.data.response,
-            userLoggedIn
+            userLoggedIn,
+            categories: categories.data.categories
         }
     }
 }
