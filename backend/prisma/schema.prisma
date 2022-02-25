@@ -19,12 +19,18 @@ model User {
   password    String
   permissions String              @default("USER")
   posts       Post[]
+  // @onDelete(CASCADE)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Post {
   id          Int       @id       @default(autoincrement())
   user      User      @relation(fields: [authorId], references: [id])
   authorId    Int       
+  // @onDelete(CASCADE)
   title       String              
   content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

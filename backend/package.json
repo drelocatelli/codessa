@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@paljs/plugins": "^4.0.14",
     "@prisma/client": "^3.9.2",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
