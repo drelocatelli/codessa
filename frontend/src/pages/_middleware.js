@@ -17,32 +17,37 @@ export async function middleware(req, ev) {
 }
 
 export async function isAlreadyLogged(token) {
-    if(typeof token != 'undefined') {
-        console.log('check already logged');
-        let revalidate = await RevalidateLogin(token);
-        let hasPermissions = revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST';
-        
-        if(revalidate.status == 200 && hasPermissions) {
-            return NextResponse.redirect('/dashboard');
-        } 
-
-    }
+    try {
+        if(typeof token != 'undefined') {
+            console.log('check already logged');
+            let revalidate = await RevalidateLogin(token);
+            let hasPermissions = revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST';
+            
+            if(revalidate.status == 200 && hasPermissions) {
+                return NextResponse.redirect('/dashboard');
+            } 
+    
+        }
+    } catch(err) {}
 
     return NextResponse.next();
 }
 
 export async function refreshTokens(token) {
-    if(typeof token != 'undefined') {
-        console.log('refresh token');
-
-        let revalidate = await RevalidateLogin(token);
-        let hasPermissions = revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST';
-        
-        if(revalidate.status == 200 && hasPermissions) {
-            return NextResponse.next().cookie('userLoggedIn', JSON.stringify(revalidate.data.user));
-        } 
-
-    }
+    
+    try {
+        if(typeof token != 'undefined') {
+            console.log('refresh token');
+    
+            let revalidate = await RevalidateLogin(token);
+            let hasPermissions = revalidate.data.user.permissions == 'ADMIN' || revalidate.data.user.permissions == 'POST';
+            
+            if(revalidate.status == 200 && hasPermissions) {
+                return NextResponse.next().cookie('userLoggedIn', JSON.stringify(revalidate.data.user));
+            } 
+    
+        }
+    } catch(err) {}
 
     return NextResponse.redirect('/');
     

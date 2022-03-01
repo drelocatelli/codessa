@@ -75,7 +75,6 @@ export default function Page() {
                     display: flex;
                     flex-flow: column wrap;
                     place-content: center flex-end;
-                    height: 80vh;
                     justify-content: center;
                 }
             `}</style>
