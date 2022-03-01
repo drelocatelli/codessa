@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 import styles from '../../styles/indexPage.module.css';
 import { GetAllPages } from '../Services/Pages/PagesServices';
 
-function Pages() {
+function Pages({children}) {
+    
+    const [loading, setLoading] = useState(true);
     const [pages, setPages] = useState(undefined);
-
+    
     useEffect(() => {
-       fetchPages();
+        fetchPages();
     }, []);
-
+    
     async function fetchPages() {
         try {
             const pages = await GetAllPages();
@@ -17,39 +19,43 @@ function Pages() {
         } catch(err) {
             console.log(err);
         }
+        
+        setLoading(false);
     }
+    
+    if(!loading)
+    return(    
+        <ul>
+            <li><Link href='/'>Página Inicial</Link></li>
+                {(typeof pages != 'undefined' && pages.length > 0) ? (
+                    <>
+                    {pages.map(page => {
+                        return(
+                            <li><Link href={`/page/${page.id}`}>{page.title}</Link></li>
+                            );
+                        })}
+                    </>) : null}              
+        </ul>);
 
-    if(typeof pages != 'undefined' && pages.length > 0)
-    return(
-        <>
-            {pages.map(page => {
-                return(
-                    <li><Link href={`/page/${page.id}`}>{page.title}</Link></li>
-                );
-            })}
-        </>
-    );
-
-    return(null);
+    return(<>&nbsp;</>);
 }
-
+                
 export default function Header() {
-
+                    
     return (
+      <>
         <div className={styles.header}>
-             <div className={styles.fundo}>
+            <div className={styles.fundo}>
                 <div className={styles.body}>
                     <div className={styles.brand}>Codessa</div>
                 </div>
             </div>
             <div className={styles.container}>
                 <div className={styles.menu}>
-                    <ul>
-                        <li><Link href='/'>Página Inicial</Link></li>
-                        <Pages />
-                    </ul>
+                    <Pages />
                 </div>
             </div>
         </div>
+        </>
     );
 }
