@@ -6,13 +6,12 @@ import Link from "next/link";
 import Parse, { resumeText } from "../Utils/HtmlParse";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { GetAllPages } from "../Services/Pages/PagesServices";
 
 export default function Page(props) {
-    let postsRows = props.posts;
-    
-    const [posts, setPosts] = useState(postsRows);
-    // console.table(posts.rows)
 
+    let postsRows = props.posts;
+    const [posts, setPosts] = useState(postsRows);
     const [morePosts, setMorePosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [disabledButtonPosts, setDisabledButtonPosts] = useState(false);
@@ -127,10 +126,12 @@ export function Posts({ posts }) {
 
 export async function getServerSideProps(ctx) {
 
-    let posts = await GetAllPosts();
-
+    const posts = await GetAllPosts();
+    
     return {
-        props: { posts: posts.data.posts }
+        props: { 
+            posts: posts.data.posts
+        }
     }
 
 }

@@ -4,6 +4,7 @@ const conn = require('./db/conn');
 const UserController = require('./Controllers/User/UserController');
 const PostController = require('./Controllers/Post/PostController');
 const PhotoController = require('./Controllers/Photos/PhotoController');
+const PagesController = require('./Controllers/Pages/PagesController');
 const cors = require('cors');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
@@ -29,6 +30,7 @@ app.get('/', function (req, res, next) {
 app.use('/api/users', UserController);
 app.use('/api/posts', PostController);
 app.use('/api/photos', PhotoController);
+app.use('/api/pages', PagesController);
 
 //------------------------------------------------------
 
