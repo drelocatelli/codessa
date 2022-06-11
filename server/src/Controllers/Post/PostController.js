@@ -78,61 +78,68 @@ router.get('/categorie/all', async (req, res) => {
 
     try {
         let categories = await prisma.categorie.findMany({});
-        res.status(200).json({categories});
-    } catch(err) {
+        res.status(200).json({ categories });
+    } catch (err) {
         res.status(500);
     }
-    
+
 });
 
 // cria categoria
 router.post('/categorie/new', ProtectedRoute, async (req, res) => {
 
     const { title } = req.body;
-    
-    if(req.userLoggedIn.permissions == 'ADMIN') {
+
+    if (req.userLoggedIn.permissions == 'ADMIN') {
         try {
             await prisma.categorie.create({ data: { title } });
-            res.status(201).json({msg: 'Categoria adicionada!'});
-        } catch(err) {
-            res.json({err});
+            res.status(201).json({ msg: 'Categoria adicionada!' });
+        } catch (err) {
+            res.json({ err });
         }
     }
 
     return res.status(401);
-    
+
 });
 
 router.get('/categorie/:id?', async (req, res) => {
 
     try {
 
-        const {id} = req.params;
+        const { id } = req.params;
 
-        const find = await prisma.post.findMany({
+        const find = await prisma.categorie.findMany({
             include: {
-                categorie: true,
-                user: true
+                posts: {
+                    include: {
+                        user: true
+                    }
+                }
             }
         });
 
-        let response = find.filter(post => {
-            delete post.user.password;
-            return post;
+        let response = find.filter(item => item.posts.length > 0);
+
+        response = response.filter(item => {
+            return item.posts.filter(post => {
+                delete post.user.password;
+                return post;
+            });
         });
 
-        if(id) {
-            response = response.find(post => post.categorie.id == id);
-            return res.status(200).json({posts: response});
+        if (id) {
+            response = response.find(item => item.id == id);
+            return res.status(200).json({ categories: response });
         }
 
-        return res.status(200).json({posts: response});
+        return res.status(200).json({ categories: response });
 
-    } catch(err) {
-        res.json({err});
+    } catch (err) {
+        res.json({ err });
     }
-    
-    return res.json({params: req.params});
+
+    return res.json({ params: req.params });
 });
 
 router.post('/new', ProtectedRoute, async (req, res) => {

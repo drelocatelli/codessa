@@ -14,6 +14,8 @@ export default function Page(props) {
     const [posts, setPosts] = useState(postsRows);
     // console.table(posts.rows)
 
+    console.log(posts)
+
     const [morePosts, setMorePosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [disabledButtonPosts, setDisabledButtonPosts] = useState(false);
@@ -82,6 +84,7 @@ export function MorePosts({ morePosts }) {
                         <div className={stylesPosts.post_details}>
                             <li><b>Autor:</b> {post.user.name}</li>
                             <li><b>Data:</b> {post.createdAt}</li>
+                            <li><b>Categoria:</b> <Link href={`/categories/${post.categorie.id}`}>{post.categorie.title}</Link> </li>
                         </div>
                         <div className={stylesPosts.post_body}>
                             {Parse(resumeText(post.content))}
@@ -112,6 +115,7 @@ export function Posts({ posts }) {
                     <div className={stylesPosts.post_details}>
                         <li><b>Autor:</b> {post.user.name}</li>
                         <li><b>Data:</b> {post.createdAt}</li>
+                        <li><b>Categoria:</b> <Link href={`/categories/${post.categorie.id}`}>{post.categorie.title}</Link> </li>
                     </div>
                     <div className={stylesPosts.post_body}>
                         {Parse(resumeText(post.content))}

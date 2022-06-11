@@ -14,6 +14,7 @@ export default function Header() {
                 <div className={styles.menu}>
                     <ul>
                         <li><Link href='/'>Página Inicial</Link></li>
+                        <li> <Link href='/categories'>Artigos por tags</Link> </li>
                         <li><Link href='/admin'>Criar artigo</Link></li>
                     </ul>
                 </div>
