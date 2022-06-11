@@ -11,24 +11,11 @@ export function Authenticate(data) {
         method: 'POST',
         url: `${ENDPOINT}/users/login`,
         data
-    }).then((response) => {
-        setCookie(null, 'TOKEN_CODESSA', response.data.token, {
-            maxAge: dayTime(30),
-            secure: true,
-            path: '/'
-        });
-        Router.push('/dashboard');
-    }).catch((err) => {
-        console.log(err.response);
-        toast.error(err.response.data.msg, { id: 'login_error' })
     });
 }
 
 export async function RevalidateLogin(token) {
-    const axiosInstance = axios.create({
-        adapter: fetchAdapter
-    });
-    return await axiosInstance.get(`${ENDPOINT}/users/revalidate`, {
+    return await axios.get(`${ENDPOINT}/users/revalidate`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

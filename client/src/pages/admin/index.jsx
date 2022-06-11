@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import { Authenticate } from "../../Services/Authentication/AuthService";
 import { Toaster, toast } from "react-hot-toast";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { userCheck } from "../../authentication";
 import { setCookie } from "nookies";
+import { dayTime } from "../../Utils/CookieTime";
 
 export default function Page() {
 
@@ -14,21 +15,20 @@ export default function Page() {
 
     const { handleSubmit, register } = useForm();
 
-    function login(data) {
+    async function login(data) {
         let isDataEmpty = Object.values(data).some(x => x === '' || x === null);
 
         if (!isDataEmpty) {
             try {
-                const response = Authenticate(data);
+                const response = await Authenticate(data);
                 setCookie(null, 'TOKEN_CODESSA', response.data.token, {
                     maxAge: dayTime(30),
                     secure: true,
                     path: '/'
                 });
-                route.push('/dashboard');
+                Router.push('/dashboard');
             } catch (err) {
-                console.log(err)
-                // toast.error(err.response.data.msg, { id: 'login_error' })
+                toast.error(err.response.data.msg, { id: 'login_error' })
             }
         } else {
             toast.error('Campos não podem ser nulos!', { id: 'null_fields' });

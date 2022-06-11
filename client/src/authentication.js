@@ -19,17 +19,12 @@ export function userAuth(fn) {
     return async (ctx) => {
         const cookies = parseCookies(ctx);
 
-        if(!cookies['TOKEN_CODESSA'])
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
-            }
-        }
-        
         try {
+            if(!cookies['TOKEN_CODESSA']) throw new Error('Token não encontrado');
+
             const revalidate = await RevalidateLogin(cookies['TOKEN_CODESSA']);
 
+            console.log(revalidate.status)
             const userData = revalidate.data;
             // receive props from file then merge with props from here
             const propsReceived = await fn(ctx).then(c => {
@@ -45,7 +40,8 @@ export function userAuth(fn) {
             return props;
 
         } catch(err) {
-            destroyCookie(ctx, 'TOKEN_CODESSA');
+            console.log(err)
+            destroyCookie(ctx, 'TOKEN_CODESSA', {path: '/'});
             return {
                 redirect: {
                     destination: '/',
