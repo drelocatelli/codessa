@@ -44,6 +44,12 @@ export function NewCategorie(data) {
     });
 } 
 
+export function Categories(id = '') {
+    return axios({
+        method: 'GET',
+        url: `${ENDPOINT}/posts/categorie/${id}`,
+    });
+}
 
 
 export function Post(data) {

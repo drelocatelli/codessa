@@ -3,6 +3,7 @@ const Post = require('../../Models/Post');
 const ProtectedRoute = require('../../Middlewares/AuthMiddleware');
 const User = require('../../Models/User');
 const { PrismaClient } = require('@prisma/client');
+const HiddenPassword = require('../../Utils/HiddenPassword');
 
 const prisma = new PrismaClient();
 
@@ -100,6 +101,38 @@ router.post('/categorie/new', ProtectedRoute, async (req, res) => {
 
     return res.status(401);
     
+});
+
+router.get('/categorie/:id?', async (req, res) => {
+
+    try {
+
+        const {id} = req.params;
+
+        const find = await prisma.post.findMany({
+            include: {
+                categorie: true,
+                user: true
+            }
+        });
+        
+        let response = find.filter(post => {
+            delete post.user.password;
+            return post;
+        });
+
+        if(id) {
+            response = response.find(post => post.categorie.id == id);
+            return res.status(200).json({categories: response});
+        }
+
+        return res.status(200).json({categories: response});
+
+    } catch(err) {
+        res.json({err});
+    }
+    
+    return res.json({params: req.params});
 });
 
 router.post('/new', ProtectedRoute, async (req, res) => {

@@ -21,6 +21,7 @@ export default function HeaderSession() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href='/dashboard/'>Pagina Inicial</Nav.Link>
+                        <Nav.Link href='/dashboard/categories'>Categorias</Nav.Link>
                     </Nav>
                     <Nav>
                         <NavDropdown title="Meu painel" id="basic-nav-dropdown">
