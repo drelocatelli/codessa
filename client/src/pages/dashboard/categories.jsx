@@ -5,17 +5,13 @@ import { Categories } from "../../Services/Posts/PostService";
 
 export default function Page(props) {
 
-    const {categories} = props;
+    const {posts} = props;
     
-    console.table(categories)
-
-    // return(null)
-
     return(
         <MainSession>
-            {categories.map(category => (
-                <li key={category.id}>
-                    <Link href={`/dashboard/categorie/${category.id}`}>{category.title}</Link>
+            {posts.map(post => (
+                <li key={post.categorie.id}>
+                    <Link href={`/dashboard/categorie/${post.categorie.id}`}>{post.categorie.title}</Link>
                 </li>
             ))}
         </MainSession>
@@ -29,7 +25,7 @@ export const getServerSideProps = userAuth(async (ctx) => {
 
     return {
         props: {
-            categories: response.data.categories
+            posts: response.data.posts
         }
     }
 });

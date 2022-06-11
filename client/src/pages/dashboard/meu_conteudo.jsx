@@ -4,11 +4,10 @@ import MainSession from '../../Components/Containers/main_session';
 import { DeletePost, GetAllPostsByUserLoggedIn } from '../../Services/Posts/PostService';
 import stylesPosts from '../../../styles/posts.module.css';
 import Parse, { resumeText } from '../../Utils/HtmlParse';
-import { parseCookies } from 'nookies';
-import { route } from 'next/dist/server/router';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { userAuth } from '../../authentication';
+import { createContext } from 'react';
 
 export default function Page(props) {
     
@@ -17,19 +16,21 @@ export default function Page(props) {
     return (
         <MainSession>
             <Container>
-                <ProfilePage pageProps={props}>
+                <ProfilePage props={props}>
                     <h5>Meu conteúdo</h5>
-                    <Posts posts={posts} />
+                    <PostsPage posts={posts} />
                 </ProfilePage>
             </Container>
         </MainSession>
     );
 }
 
-export function Posts({ posts }) {
+export function PostsPage({ posts }) {
+
+    console.log('chegou aqui')
 
     const route = useRouter();
-    
+
     if (posts.length == 0)
         return (
             <div style={{ margin: '50px 30px', background: '#f9f9f9', padding: '12px' }}>
@@ -88,20 +89,20 @@ export function Posts({ posts }) {
     );
 }
 
-export function ProfilePage(props) {
+export function ProfilePage({props, children}) {
 
-    const { userLoggedIn } = props.pageProps;
-
+    const {user} = props;
+    
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', margin: '60px 0' }}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div>
-                        <img src={`https://github.com/${userLoggedIn.username}.png`} style={{ width: '50px', height: '50px', borderRadius: '50px' }} />
+                        {/* <img src={`https://github.com/${user.username}.png`} style={{ width: '50px', height: '50px', borderRadius: '50px' }} /> */}
                     </div>
                     <div style={{ marginLeft: '10px' }}>
-                        <b>Seja bem-vindo, {userLoggedIn.name} !</b> <br />
-                        Sua permissão é {userLoggedIn.permissions}
+                        <b>Seja bem-vindo, {user.name} !</b> <br />
+                        Sua permissão é {user.permissions}
                     </div>
                 </div>
                 <div>
@@ -110,7 +111,7 @@ export function ProfilePage(props) {
                     </Link>
                 </div>
             </div>
-            {props.children}
+            {children}
         </>
     );
 }
@@ -118,12 +119,10 @@ export function ProfilePage(props) {
 export const getServerSideProps = userAuth(async (ctx) => {
 
     let posts = await GetAllPostsByUserLoggedIn(ctx);
-    const userLoggedIn = JSON.parse(parseCookies(ctx)['userLoggedIn']);
 
     return {
         props: {
             posts: posts.data.posts,
-            userLoggedIn
         }
     };
 

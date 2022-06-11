@@ -24,8 +24,7 @@ export function userAuth(fn) {
 
             const revalidate = await RevalidateLogin(cookies['TOKEN_CODESSA']);
 
-            console.log(revalidate.status)
-            const userData = revalidate.data;
+            const userData = revalidate.data.user;
             // receive props from file then merge with props from here
             const propsReceived = await fn(ctx).then(c => {
                 return c;

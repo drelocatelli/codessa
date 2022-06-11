@@ -115,7 +115,7 @@ router.get('/categorie/:id?', async (req, res) => {
                 user: true
             }
         });
-        
+
         let response = find.filter(post => {
             delete post.user.password;
             return post;
@@ -123,10 +123,10 @@ router.get('/categorie/:id?', async (req, res) => {
 
         if(id) {
             response = response.find(post => post.categorie.id == id);
-            return res.status(200).json({categories: response});
+            return res.status(200).json({posts: response});
         }
 
-        return res.status(200).json({categories: response});
+        return res.status(200).json({posts: response});
 
     } catch(err) {
         res.json({err});
