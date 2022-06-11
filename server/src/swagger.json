@@ -1,0 +1,19 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Codessa API"
+    },
+    "version": "1.0.0",
+    "host": "http://localhost:3000",
+    "basePath": "/api",
+    "paths": {
+        "/users/get": {
+            "get": {
+                "security": [{"bearerAuth": [] }],
+                "summary": "Obtem todos os usuários",
+                "tags": ["Users"],
+                "produces": ["application/json"]
+            }
+        }
+    }
+}
